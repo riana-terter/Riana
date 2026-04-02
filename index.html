@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riana Terter — Lead Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #C0392B;
+      --charcoal: #1a1a18;
+      --charcoal2: #242420;
+      --warm-white: #F9F7F4;
+      --surface: #f2eeea;
+      --mid: #7a7874;
+      --muted: #9a9690;
+      --border: #e2ded9;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--warm-white); color: var(--charcoal); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 5rem;
+      background: rgba(249,247,244,0.93); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; color: var(--charcoal); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a { font-size: 0.76rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--red); }
+
+    /* HERO */
+    #hero { min-height: 80vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; align-items: stretch; }
+    .hero-text { display: flex; flex-direction: column; justify-content: center; padding-right: 2rem;}
+    .hero-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 1.4rem; }
+    .hero-name { font-family: var(--serif); font-size: clamp(3rem, 5.5vw, 5rem); line-height: 1.05; font-weight: 700; margin-bottom: 1rem; }
+    .hero-title { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--mid); margin-bottom: 1.75rem; line-height: 1.45; }
+    .hero-bio { font-size: 0.91rem; color: #5a5855; line-height: 1.85; margin-bottom: 2.25rem; }
+    .hero-bio strong { color: #000000; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.75rem; }
+    .btn-p { display: inline-block; padding: 0.82rem 2rem; background: var(--charcoal); color: var(--warm-white); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+    .btn-p:hover { background: var(--red); }
+    .btn-s { display: inline-block; padding: 0.82rem 2rem; border: 1px solid var(--charcoal); color: var(--charcoal); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
+    .btn-s:hover { border-color: var(--red); color: var(--red); }
+    .hero-stats { display: flex; gap: 2.25rem; flex-direction: row; }
+    .stat-num { font-family: var(--serif); font-size: 1.9rem; font-weight: 700; color: var(--red); display: block; line-height: 1; }
+    .stat-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+    .hero-image { display: flex; align-items: center; max-width: 640px; align-self: stretch; }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; object-fit: contain; object-position: left center; display: block; padding: 1rem;}
+    .hero-ph { width: 100%; height: 100%; background: linear-gradient(160deg,#e4dfd8 0%,#ccc7bf 100%); display: flex; align-items: center; justify-content: center; }
+
+    /* SHARED */
+    .lbl { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 0.55rem; }
+    .ttl { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1.2; }
+    section { padding: 6rem 8rem; }
+
+    /* WORK CARDS — editorial layout */
+    #work { padding: 6rem 8rem 5rem; }
+    .work-intro { margin-bottom: 3.5rem; }
+    .work-intro p { font-size: 0.93rem; color: var(--mid); line-height: 1.8; margin-top: 0.75rem; }
+
+    .pgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.25rem;
+    }
+    /* Card 1 spans full width on top */
+    .pcard-main {
+      grid-column: 1 / -1;
+      position: relative; overflow: hidden; border-radius: 2rem;
+      background: var(--charcoal); cursor: pointer;
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 340px;
+    }
+    .pcard-main-img {
+      position: relative; overflow: hidden;
+    }
+    .pcard-main-img img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      display: block; transition: transform 0.6s ease;
+    }
+    .pcard-main:hover .pcard-main-img img { transform: scale(1.04); }
+    .pcard-main-body {
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 2.5rem 2.5rem 2.5rem 2rem;
+    }
+    .pcard-main-top .pco { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; font-weight: 500; }
+    .pcard-main-top h3 { font-family: var(--serif); font-size: 1.6rem; color: white; line-height: 1.25; margin-bottom: 1rem; }
+    .pcard-main-top p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+    .pcard-main-bottom { display: flex; flex-direction: column; gap: 1rem; }
+    .pcard-main-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .pcard-main-arrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--red); font-weight: 500;
+    }
+    .pcard-main-arrow::after { content: '→'; font-size: 0.9rem; transition: transform 0.2s; }
+    .pcard-main:hover .pcard-main-arrow::after { transform: translateX(4px); }
+
+    /* Cards 2 & 3 side by side */
+    .pcard-side {
+      position: relative; overflow: hidden; border-radius: 2rem;
+      background: var(--charcoal); cursor: pointer;
+      display: flex; flex-direction: column; min-height: 300px;
+    }
+    .pcard-side-img {
+      flex: 1; position: relative; overflow: hidden; min-height: 180px;
+    }
+    .pcard-side-img img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      display: block; transition: transform 0.6s ease;
+    }
+    .pcard-side:hover .pcard-side-img img { transform: scale(1.04); }
+    .pcard-side-body {
+      padding: 1.4rem 1.75rem 1.75rem;
+      background: var(--charcoal);
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .pcard-side-body .pco { font-size: 0.63rem; letter-spacing: 0.17em; text-transform: uppercase; color: var(--red); margin-bottom: 0.4rem; font-weight: 500; }
+    .pcard-side-body h3 { font-family: var(--serif); font-size: 1.15rem; color: white; line-height: 1.3; margin-bottom: 0.75rem; }
+    .pcard-side-body .pdesc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 0.75rem; }
+    .pcard-side-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .pcard-side-tag { font-size: 0.6rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.15rem 0.55rem; border: 1px solid rgba(249,247,244,0.2); color: rgba(249,247,244,0.5); border-radius: 999px; }
+
+    @media (max-width: 900px) {
+      .pcard-main { grid-template-columns: 1fr; }
+      .pcard-main-img { min-height: 220px; }
+      .pgrid { grid-template-columns: 1fr; }
+    }
+
+    /* SUNSTICE */
+    #sunstice { background: var(--surface); }
+    .cs-hdr { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 4.5rem; align-items: start; }
+    .cs-hdr p { font-size: 0.92rem; color: var(--mid); line-height: 1.8; margin-top: 0.75rem; max-width: 480px; }
+    .cs-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+    .cs-table td { padding: 0.7rem 0; border-top: 1px solid var(--border); font-size: 0.86rem; }
+    .cs-table td:first-child { color: var(--mid); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; width: 110px; }
+    .mgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 4.5rem; }
+    .mcard { background: white; padding: 1.75rem 1.6rem; border-bottom: 3px solid transparent; transition: border-color 0.22s; border-radius: 2rem;}
+    .mcard:hover { border-color: var(--red); }
+    .mnum { font-size: 0.63rem; letter-spacing: 0.17em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
+    .mname { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .mdesc { font-size: 0.82rem; color: var(--mid); line-height: 1.68; }
+
+    /* Module images */
+    .mcard-img { width: 100%; aspect-ratio: 16/9; overflow: hidden; margin-bottom: 1.1rem; background: var(--surface); border-radius: 0.5rem; }
+    .mcard-img img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; transition: transform 0.4s ease; }
+    .mcard:hover .mcard-img img { transform: scale(1.03); }
+
+    /* Case study before/after strip */
+    .cs-strip { margin: 3rem 0; }
+    .cs-strip-label { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; }
+    .cs-strip-h { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 2rem; }
+    .cs-img-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .cs-img-item { position: relative; background: var(--charcoal); overflow: hidden; border-radius: 2rem; display: flex; flex-direction: column; justify-content: flex-end;}
+    .cs-img-item img { height: 100%; display: block; object-fit: cover; }
+    .cs-img-caption { padding: 1rem 2.5rem; background: rgba(18,18,16,0.8) ;  flex-shrink:0;}
+    .cs-img-caption span { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.8); }
+    .cs-img-caption strong { font-family: var(--serif);  font-size: 1rem; color: #ffffff; display: block; margin-bottom: 0.1rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    
+    /* Process in action */
+    .proc-action { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2.5rem 0; }
+    .proc-action-img { position: relative; background: #222; overflow: hidden; aspect-ratio: 4/3; border-radius: 2rem;}
+    .proc-action-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+    .proc-action-caption { padding: 1rem 0 0; }
+    .proc-action-caption strong { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); display: block; margin-bottom: 0.25rem; }
+    .proc-action-caption p { font-size: 0.83rem; color: #9a9690; line-height: 1.6; }
+
+    /* Process dark band */
+    .proc-band { background: var(--charcoal); padding: 4.5rem 8rem; margin: 0 -8rem; }
+    .proc-band .lbl { color: var(--red); }
+    .proc-band .ttl { color: white; margin-bottom: 0.5rem; }
+    .proc-sub { font-size: 0.91rem; color: #9a9690; margin-bottom: 3rem; max-width: 500px; }
+    .psteps { display: grid; grid-template-columns: repeat(4,1fr); }
+    .pstep { padding: 2.25rem 1.75rem; border-left: 1px solid rgba(255,255,255,0.07); }
+    .pstep:first-child { border-left: none; }
+    .pstep-n { font-family: var(--serif); font-size: 2.8rem; font-weight: 700; color: rgba(192,57,43,0.2); line-height: 1; margin-bottom: 0.9rem; display: block; }
+    .pstep-lbl { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 0.5rem; }
+    .pstep-title { font-family: var(--serif); font-size: 1.05rem; color: white; margin-bottom: 0.65rem; }
+    .pstep-list { list-style: none; }
+    .pstep-list li { font-size: 0.8rem; color: #9a9690; line-height: 1.55; padding: 0.3rem 0; border-top: 1px solid rgba(255,255,255,0.05); }
+    .pstep-list li:first-child { border-top: none; }
+
+    /* Deep dive */
+    .dd { margin-top: 4.5rem; }
+    .dd-hdr p { font-size: 0.93rem; color: var(--mid); line-height: 1.8; margin-top: 0.65rem; margin-bottom: 2.5rem; }
+    .cgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+    .ccard { background: white; padding: 2.25rem; border-radius: 2rem}
+    .ccard.dk { background: var(--charcoal); }
+    .ccard-lbl { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 0.85rem; }
+    .ccard h4 { font-family: var(--serif); font-size: 1.15rem; margin-bottom: 0.85rem; }
+    .ccard.dk h4 { color: white; }
+    .ccard p { font-size: 0.87rem; color: var(--mid); line-height: 1.72; }
+    .ccard.dk p { color: #9a9690; }
+
+    .journey-panel { background: white; padding: 2.75rem; margin-bottom: 2px; }
+    .journey-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-top: 1.75rem; }
+    .j3-lbl { font-size: 0.65rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
+    .j3-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .j3-quote { font-size: 0.8rem; color: var(--charcoal); font-style: italic; line-height: 1.6; background: var(--surface); padding: 0.7rem; margin-top: 0.75rem; }
+    .j3-list { list-style: none; }
+    .j3-list li { font-size: 0.82rem; color: var(--mid); line-height: 1.6; padding: 0.38rem 0; border-top: 1px solid var(--border); }
+    .j3-list li:first-child { border-top: none; }
+
+    .inums { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin-top: 2.5rem; }
+    .inum { background: var(--red); padding: 1.75rem 1.4rem; text-align: center; border-radius: 2rem;}
+    .inum.dk { background: var(--charcoal); }
+    .inum-big { font-family: var(--serif); font-size: 2.3rem; font-weight: 700; color: white; display: block; line-height: 1; }
+    .inum.dk .inum-big { color: var(--red); }
+    .inum-sm { font-size: 0.68rem; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.72); margin-top: 0.45rem; display: block; }
+
+    /* Reviews */
+    .rev-hdr { display: flex; justify-content: space-between; align-items: flex-end; margin: 4rem 0 1.75rem; }
+    .rbadge { display: flex; align-items: center; gap: 1rem; background: white; padding: 0.9rem 1.4rem; border-left: 3px solid var(--red); border-radius: 0rem 2rem 2rem 0rem;}
+    .rbadge-num { font-family: var(--serif); font-size: 1.9rem; font-weight: 700; color: var(--red); }
+    .rbadge-stars { color: #f0a500; font-size: 0.95rem; display: block; }
+    .rbadge-meta { font-size: 0.72rem; color: var(--mid); }
+    .rgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .rcard { background: white; padding: 1.75rem; border-top: 2px solid var(--border); border-radius: 2rem;}
+    .rcard blockquote { font-size: 0.86rem; color: #5a5855; line-height: 1.75; font-style: italic; margin-bottom: 0.75rem; }
+    .rdate { font-size: 0.7rem; letter-spacing: 0.07em; color: var(--muted); }
+
+    /* CISCO */
+    #cisco { padding: 6rem 8rem; }
+    .cis-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: start; }
+    .cis-text .ttl { margin-bottom: 1rem; }
+    .cis-text > p { font-size: 0.92rem; color: var(--mid); line-height: 1.82; margin-bottom: 1.2rem; }
+    .ch-list { list-style: none; margin: 1.25rem 0; }
+    .ch-list li { font-size: 0.87rem; padding: 0.7rem 0 0.7rem 1.2rem; border-top: 1px solid var(--border); color: #5a5855; line-height: 1.6; position: relative; }
+    .ch-list li::before { content: '—'; position: absolute; left: 0; color: var(--red); }
+    .pmini { margin: 2rem 0; }
+    .pmini-step { display: flex; gap: 1.4rem; padding: 1.1rem 0; border-top: 1px solid var(--border); align-items: flex-start; }
+    .pmini-lbl { font-size: 0.65rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--red); min-width: 110px; padding-top: 0.15rem; }
+    .pmini-txt { font-size: 0.86rem; color: #5a5855; line-height: 1.62; }
+    .ci-impacts { margin-top: 1.75rem; }
+    .ci-item { display: flex; gap: 0.9rem; padding: 1.1rem 0; border-top: 1px solid var(--border); align-items: flex-start; }
+    .ci-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: 0.6rem; }
+    .ci-txt { font-size: 0.87rem; color: #5a5855; line-height: 1.62; }
+    .prod-show { display: flex; flex-direction: column; gap: 1.75rem; }
+    .prod-item { border-top: 2px solid var(--border); padding-top: 1.4rem; }
+    .prod-lbl { font-size: 0.65rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--red); margin-bottom: 0.35rem; }
+    .prod-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .prod-desc { font-size: 0.83rem; color: var(--mid); line-height: 1.62; }
+    .prod-ph { width: 100%; margin-top: 0.85rem; display: flex; align-items: center; justify-content: center; aspect-ratio: 16/9; }
+    .prod-ph span { font-family: var(--serif); font-style: italic; color: rgba(255,255,255,0.14); font-size: 0.82rem; }
+    .prod-ph img {max-width: 30rem; border-radius: 2rem;}
+
+    /* JOURNEY */
+    #journey { padding: 6rem 8rem; background: var(--charcoal); }
+    #journey .lbl { color: var(--red); }
+    #journey .ttl { color: white; margin-bottom: 0.5rem; }
+    .j-sub { font-size: 0.93rem; color: #9a9690; margin-bottom: 3.5rem; }
+    .jgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; }
+    .jcard { background: var(--charcoal2); padding: 2.25rem 1.9rem; border-bottom: 3px solid transparent; transition: border-color 0.22s; }
+    .jcard:hover { border-color: var(--red); }
+    .jcard-n { font-family: var(--serif); font-size: 2.3rem; font-weight: 700; color: rgba(192,57,43,0.18); line-height: 1; margin-bottom: 0.85rem; }
+    .jcard-lbl { font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 0.4rem; }
+    .jcard-title { font-family: var(--serif); font-size: 1.1rem; color: white; margin-bottom: 0.85rem; }
+    .jcard-list { list-style: none; }
+    .jcard-list li { font-size: 0.81rem; color: #9a9690; line-height: 1.55; padding: 0.32rem 0; border-top: 1px solid rgba(255,255,255,0.05); }
+    .jcard-list li:first-child { border-top: none; }
+
+    /* ABOUT */
+    #about { padding: 6rem 8rem; display: grid; grid-template-columns: 1.2fr 1fr; gap: 5.5rem; background: var(--surface); align-items: start; }
+    #about .ttl { margin-bottom: 1.75rem; }
+    .about-text p { font-size: 0.93rem; color: #5a5855; line-height: 1.83; margin-bottom: 1.3rem; }
+    .lf { margin-top: 1.75rem; padding: 1.75rem; background: white; border-left: 3px solid var(--red); border-radius: 0rem 2rem 2rem 0rem;}
+    .lf-lbl { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 0.65rem; }
+    .lf p { font-size: 0.88rem; color: #5a5855; line-height: 1.72; margin-bottom: 0.65rem; }
+    .lf p:last-child { margin-bottom: 0; }
+    .sk-grid { }
+    .sk-cat { border-top: 1px solid var(--border); padding: 1.35rem 0; }
+    .sk-cat-name { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.65rem; }
+    .sk-tags { display: flex; flex-wrap: wrap; gap: 0.38rem; }
+    .sk-tag { font-size: 0.76rem; padding: 0.26rem 0.8rem; border: 1px solid var(--border); color: #5a5855; }
+
+    /* EXPERIENCE */
+    #experience { padding: 6rem 8rem; }
+    .ex-item { display: grid; grid-template-columns: 190px 1fr; gap: 3.25rem; padding: 2.75rem 0; border-top: 1px solid var(--border); }
+    .ex-item:last-of-type { border-bottom: 1px solid var(--border); }
+    .ex-co { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .ex-period { font-size: 0.73rem; color: var(--mid); letter-spacing: 0.05em; }
+    .ex-role { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
+    .ex-desc { font-size: 0.89rem; color: #5a5855; line-height: 1.76; margin-bottom: 1.1rem; }
+    .ex-impact { font-size: 0.85rem; font-weight: 500; color: var(--charcoal); border-left: 2px solid var(--red); padding-left: 1rem; line-height: 1.62; }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem; }
+    .edu-row-item { border-top: 1px solid var(--border); padding: 1rem 0; }
+    .edu-period { font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 0.25rem; }
+    .edu-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .edu-sub { font-size: 0.8rem; color: var(--mid); }
+
+    /* CONTACT */
+    #contact { background: var(--charcoal); color: var(--warm-white); text-align: center; padding: 7rem 4rem; }
+    #contact .lbl { color: var(--red); margin-top: 4rem;}
+    #contact .ttl { color: white; margin-bottom: 1.1rem; font-size: clamp(1.8rem,3vw,2.6rem); }
+    .c-sub { font-size: 0.92rem; color: #9a9690; margin: 0 auto 4rem; max-width: 460px; line-height: 1.75; }
+    .c-links { display: flex; justify-content: center; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 4rem; }
+    .c-link { font-size: 0.75rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--warm-white); text-decoration: none; padding: 0.9rem 2.25rem; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; }
+    .c-link:hover { border-color: var(--red); color: var(--red); }
+    footer { background: #111110; color: #4a4845; text-align: center; padding: 1.6rem; font-size: 0.73rem; letter-spacing: 0.06em; }
+
+    /* FADE */
+    .fi { opacity: 0; transform: translateY(22px); transition: opacity 0.62s ease, transform 0.62s ease; }
+    .fi.vis { opacity: 1; transform: none; border-radius: 2rem}
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      nav { padding: 1rem 2.5rem; }
+      section, #work, #sunstice, #cisco, #about, #experience, #journey { padding-left: 3rem; padding-right: 3rem; }
+      .proc-band { margin: 0 -3rem; padding: 4rem 3rem; }
+    }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; }
+      .pcard.wide { grid-column: span 1; aspect-ratio: 4/3; }
+      .pgrid, .psteps, .mgrid, .cgrid, .inums, .jgrid, .rgrid, .cis-grid, .cs-hdr, #about { grid-template-columns: 1fr; }
+      .pgrid { grid-template-columns: 1fr; }
+      .cs-img-row, .proc-action { grid-template-columns: 1fr; }
+      .journey-3, .edu-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+      .ex-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .pover { opacity: 1; }
+      section, #work, #sunstice, #cisco, #about, #experience, #journey { padding-left: 2rem; padding-right: 2rem; }
+      .proc-band { margin: 0 -2rem; padding: 3.5rem 2rem; }
+    }
+    @media (max-width: 600px) {
+      .journey-3, .edu-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.25rem; }
+      .inums { grid-template-columns: 1fr 1fr; }
+    }
+    /* LIGHTBOX */
+    .lightbox-trigger { cursor: zoom-in; }
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(10,10,8,0.92); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 92vw; max-height: 90vh;
+      object-fit: contain; border-radius: 1rem;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      animation: lb-in 0.22s ease;
+    }
+    @keyframes lb-in { from { opacity:0; transform:scale(0.94); } to { opacity:1; transform:scale(1); } }
+    #lightbox-close {
+      position: fixed; top: 1.5rem; right: 2rem;
+      font-size: 1.5rem; color: rgba(255,255,255,0.7); cursor: pointer;
+      background: none; border: none; line-height: 1; padding: 0.5rem;
+      transition: color 0.2s;
+    }
+    #lightbox-close:hover { color: var(--red); }
+    #lightbox-caption {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<div id="lightbox" role="dialog" aria-modal="true">
+  <button id="lightbox-close" aria-label="Close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <p id="lightbox-caption"></p>
+</div>
+
+<nav>
+  <a href="#hero" class="nav-name">Riana Terter</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#sunstice">Sunstice</a></li>
+    <li><a href="#cisco">Cisco</a></li>
+    <li><a href="#journey">Process</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Lead Product Designer · Strategy &amp; Experience</p>
+    <h1 class="hero-name">Riana TERTER</h1>
+    <p class="hero-title">Bringing clarity &amp; vision <br> to complex enterprise products.</p>
+    <p class="hero-bio">Design leader operating at the intersection of <strong> product, design, and engineering, </strong> with 15+ years of experience in large multinational and mid-size organizations such as Sunstice, Cisco, and Infor.  <p class="hero-bio">  Expertise in enterprise <strong>SaaS, data-intensive products, data visualization, and system modernization</strong>. Strong track record of bringing clarity and product vision to complex systems by transforming intricate business processes and workflows into coherent, scalable, and user-centric solutions, while balancing user needs, technical constraints, and business objectives. </p><p class="hero-bio"> Background in <strong>Informatics</strong> and <strong>Visual Communication</strong>, with <strong> NNg UX Management </strong> certification and currently preparing for the <strong>PMP certification</strong> to reinforce strategic delivery skills. Fluent in English, French, and Romanian.</p></p>
+    <div class="hero-cta">
+      <a href="#work" class="btn-p">View Work</a>
+      <a href="#contact" class="btn-s">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div><span class="stat-num">15+</span><span class="stat-label">Years exp.</span></div>
+      <div><span class="stat-num">20+</span><span class="stat-label">Products</span></div>
+      <div><span class="stat-num">35%</span><span class="stat-label">Adoption Lift</span></div>
+      <div><span class="stat-num">10+</span><span class="stat-label">Countries</span></div>
+      <div><span class="stat-num">4.8★</span><span class="stat-label">Gartner</span></div>
+    </div>
+  </div>
+  <div class="hero-image">
+   <img src="MyJourney.png" alt="Riana">
+  </div>
+</section>
+
+<!-- WORK OVERVIEW -->
+<section id="work">
+  <div class="work-intro fi">
+    <p class="lbl">Selected Work</p>
+    <h2 class="ttl">Case Studies</h2>
+    <p>From Global Telecom (TV and Mobile) to Enterprise SaaS Supply Chain, I’ve led the UI/UX strategy for large-scale digital transformations. <br>My approach integrates user research and collaborative design thinking to solve complex problems for multi-country deployments and diverse user profiles.</p>
+  </div>
+  <div class="pgrid">
+
+    <!-- Card 1: BLOOM — full width, split layout -->
+    <div class="pcard-main fi" onclick="window.location='#sunstice'">
+      <div class="pcard-main-img">
+        <img src="Bloom.png" alt="BLOOM Supply Chain Management System">
+      </div>
+      <div class="pcard-main-body">
+        <div class="pcard-main-top">
+          <p class="pco">Sunstice · 2017–2025</p>
+          <h3>BLOOM · Supply Chain Management System</h3>
+          <p>Rebuilt a legacy platform into a visual-first enterprise SaaS from scratch, designing 7+ modules for global leaders like L'Oréal, Heineken and Royal Canin.</p>
+        </div>
+        <div class="pcard-main-bottom">
+          <div class="pcard-main-tags">
+            <span class="ptag">Data UX</span><span class="ptag">SaaS</span><span class="ptag">Design Thinking</span><span class="ptag">Design System</span>
+          </div>
+          <span class="pcard-main-arrow">View case study</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Vodafone -->
+    <div class="pcard-side fi" onclick="window.location='#cisco'">
+      <div class="pcard-side-img">
+        <img src="Vodafone mobile.png" alt="Vodafone GigaTV Mobile App">
+      </div>
+      <div class="pcard-side-body">
+        <p class="pco">Cisco · 2015–2017</p>
+        <h3>Vodafone GigaTV · Mobile App</h3>
+        <p class="pdesc">Delivered the GigaTV experience across iOS, Android, mobile and tablet for millions of users.</p>
+        <div class="pcard-side-tags">
+          <span class="pcard-side-tag">iOS &amp; Android</span><span class="pcard-side-tag">Mobile</span><span class="pcard-side-tag">TV UX</span><span class="pcard-side-tag">Mobile VOD</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Liberty Global -->
+    <div class="pcard-side fi" onclick="window.location='#cisco'">
+      <div class="pcard-side-img">
+        <img src="UPC.jpg" alt="Liberty Global Horizon Set-Top Box">
+      </div>
+      <div class="pcard-side-body">
+        <p class="pco">Cisco · 2013–2015</p>
+        <h3>Liberty Global Horizon · Set-Top Box</h3>
+        <p class="pdesc">Delivered VOD and Replay TV across 7 countries and raised user satisfaction.</p>
+        <div class="pcard-side-tags">
+          <span class="pcard-side-tag">TV UX</span><span class="pcard-side-tag">Cross-Cultural</span><span class="pcard-side-tag">Set-Top Box</span><span class="pcard-side-tag">VOD</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SUNSTICE CASE STUDY -->
+<section id="sunstice">
+  <div class="cs-hdr fi">
+    <div>
+      <p class="lbl">Case Study</p>
+      <h2 class="ttl">Revamping the Supply Chain Management System</h2>
+      <p>Hired to lead the full modernisation of a legacy system into BLOOM, a new scalable, modular SaaS platform that put user-centricity at the heart of supply chain management.</p>
+    </div>
+    <div>
+      <table class="cs-table">
+        <tr><td>Company</td><td><strong>Sunstice (FuturMaster)</strong></td></tr>
+        <tr><td>Period</td><td><strong>2017 – 2025 · 8 years</strong></td></tr>
+        <tr><td>Role</td><td><strong>Lead Product Designer</strong></td></tr>
+        <tr><td>Teams</td><td><strong>8 international teams, France &amp; China</strong></td></tr>
+        <tr><td>Mentored</td><td><strong>Up to 7 designers &amp; integrators</strong></td></tr>
+        <tr><td>Clients</td><td><strong>L'Oréal, Heineken, Royal Canin, Total, Lactalis etc.</strong></td></tr>
+        <tr><td>Tools</td><td><strong>Adobe XD, Illustrator, Figma, Miro, Jira</strong></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="fi" style="margin-bottom:1.25rem;">
+    <p class="lbl">Platform Modules</p>
+    <h3 class="ttl" style="margin-bottom:0.5rem;">7+ Modules, Designed from the scratch</h3>
+    <p style="font-size:0.91rem;color:var(--mid);max-width:560px;line-height:1.8;margin-bottom:2rem;">Each module shaped through iterative research, ideation, and close collaboration with stakeholders and created intuitive experiences that simplify complexity while maximising efficiency.</p>
+  </div>
+  <div class="mgrid fi">
+    <div class="mcard">
+      <div class="mcard-img"><img src="Demand.png" alt="Demand Planning module" onerror="this.parentElement.style.background='#e8e4df';this.style.display='none'"></div>
+      <p class="mnum">Module 01</p><h4 class="mname">Demand Planning</h4><p class="mdesc">Transformed a rigid, table-based interface into a fully visual, graph-driven experience. Users can clean, enrich, and analyse forecasts directly within the interface. <em>Deep-dive below ↓</em></p>
+    </div>
+    <div class="mcard">
+      <div class="mcard-img"><img src="Dashboard.png" alt="Dashboards and S&OP" onerror="this.parentElement.style.background:'#e8e4df';this.style.display='none'"></div>
+      <p class="mnum">Module 03</p><h4 class="mname">Dashboards &amp; S&amp;OP</h4><p class="mdesc">Created dynamic dashboards that allow teams to monitor performance, align strategies, and collaborate efficiently across departments.</p>
+    </div>
+    <div class="mcard">
+      <div class="mcard-img"><img src="SP.png" alt="Supply Planning module" onerror="this.parentElement.style.background:'#e8e4df';this.style.display='none'"></div>
+      <p class="mnum">Module 02</p><h4 class="mname">Supply Planning</h4><p class="mdesc">Introduced a panoramic view allowing teams to visualise and adjust plans more intuitively, ensuring better control over stock management and production flows.</p>
+    </div>
+    <div class="mcard">
+      <div class="mcard-img"><img src="Promo.png" alt="Trade Promotions module" onerror="this.parentElement.style.background:'#e8e4df';this.style.display='none'"></div>
+      <p class="mnum">Module 04</p><h4 class="mname">TPx — Trade Promotions</h4><p class="mdesc">Designed end-to-end Promotion Planning, Management, Optimisation and Analysis to ensure trade promotions achieve sales and financial objectives.</p>
+    </div>
+    <div class="mcard">
+      <div class="mcard-img"><img src="Analyser.png" alt="Analyzer module" onerror="this.parentElement.style.background:'#e8e4df';this.style.display='none'"></div>
+      <p class="mnum">Module 05</p><h4 class="mname">Analyzer</h4><p class="mdesc">Built an advanced data exploration module enabling deeper analysis — allowing users to analyse and optimise data to keep up with the ever-progressing business.</p>
+    </div>
+    <div class="mcard">
+      <div class="mcard-img"><img src="Master Data.png" alt="Master Data module" onerror="this.parentElement.style.background:'#e8e4df';this.style.display='none'"></div>
+      <p class="mnum">Module 06</p><h4 class="mname">Master Data</h4><p class="mdesc">Developed a structured and user-friendly interface for managing core business data, ensuring consistency and easy access across the organisation.</p>
+    </div>
+  </div>
+
+  <!-- Process band -->
+  <div class="proc-band fi">
+    <p class="lbl">Design Process</p>
+    <h3 class="ttl">How I Work: from Discovery to Delivery</h3>
+    <p class="proc-sub">Applied consistently across all modules and projects, grounded in real user needs, validated continuously with stakeholders, users, and developers.</p>
+    <div class="psteps">
+      <div class="pstep">
+        <span class="pstep-n">01</span>
+        <p class="pstep-lbl">Discovery</p>
+        <h4 class="pstep-title">Workshops, personas &amp; journey maps</h4>
+        <ul class="pstep-list">
+          <li><strong style="color:#c8c4be;">In practice:</strong> Led workshops with Professional Services, Architects &amp; Customer Success to surface real pain points</li>
+          <li>Built the Demand Planner persona · Marie, 30 · from real user interviews, not assumptions</li>
+          <li>Mapped the full experience from "predict the future of our products" to daily friction points</li>
+          <li>Defined HMW: "make the tool more performant, ergonomic &amp; efficient for forecasting"</li>
+        </ul>
+      </div>
+      <div class="pstep">
+        <span class="pstep-n">02</span>
+        <p class="pstep-lbl">Ideation</p>
+        <h4 class="pstep-title">Crazy 8s, Studio Design &amp; convergence</h4>
+        <ul class="pstep-list">
+          <li><strong style="color:#c8c4be;">In practice:</strong> Ran Crazy 8s sessions · 8 ideas in 8 minutes · to break out of the "fix the table" mindset</li>
+          <li>Studio Design brought engineers, PS &amp; PMs together to sketch and challenge concepts</li>
+          <li>Emerged from table-first thinking to a visual, graph-driven forecast card</li>
+          <li>Prioritised features by usage frequency and basic vs. advanced user profiles</li>
+        </ul>
+      </div>
+      <div class="pstep">
+        <span class="pstep-n">03</span>
+        <p class="pstep-lbl">Prototype</p>
+        <h4 class="pstep-title">Interactive prototypes</h4>
+        <ul class="pstep-list">
+          <li><strong style="color:#c8c4be;">In practice:</strong> Built high-fidelity interactive prototypes in Adobe XD / Figma with realistic supply chain data</li>
+          <li>Replaced complex table rows with a visual timeline view so users could see trends at a glance</li>
+          <li>Designed a unified design system used across all 7+ modules for consistency</li>
+          <li>Created investor-facing prototypes to secure Cathay Capital &amp; Sagard</li>
+        </ul>
+      </div>
+      <div class="pstep">
+        <span class="pstep-n">04</span>
+        <p class="pstep-lbl">Feedback Loops</p>
+        <h4 class="pstep-title">Iterating with users, devs &amp; clients</h4>
+        <ul class="pstep-list">
+          <li><strong style="color:#c8c4be;">In practice:</strong> Monthly review cycles with Professional Services, the team closest to real user pain</li>
+          <li>Developer sessions to check feasibility, catch edge cases and maintain consistency</li>
+          <li>Tested with actual Demand Planners and tracked whether task speed improved</li>
+          <li>Iterated until Gartner clients wrote: "intuitive, powerful, fully configurable"</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- In action images from PDF -->
+    <div style="margin-top:3rem;">
+      <p style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:1.25rem;">Process in action — Demand Planning Card</p>
+      <div class="proc-action">
+        <div>
+          <div class="proc-action-img">
+            <img src="Persona.png" alt="Demand Planning persona workshop" onerror="this.parentElement.style.background:'#2a2a26';this.style.display='none'">
+          </div>
+          <div class="proc-action-caption">
+            <strong>Discovery — Persona &amp; Experience Map</strong>
+            <p>Demand Planner persona "Namadoo" and the full experience map, built in workshops with Professional Services, Architects &amp; Customer Success.</p>
+          </div>
+        </div>
+        <div>
+          <div class="proc-action-img">
+            <img src="Exploring.jpg" alt="Ideation and prototyping sketches" onerror="this.parentElement.style.background:'#2a2a26';this.style.display='none'">
+          </div>
+          <div class="proc-action-caption">
+            <strong>Ideation — Exploring &amp; Emerging</strong>
+            <p>Crazy 8s and Studio Design sessions produced dozens of concepts. The team converged on a hybrid visual approach addressing both basic and advanced users.</p>
+          </div>
+        </div>
+        <div>
+          <div class="proc-action-img">
+            <img src="proto.png" alt="Interactive prototype" onerror="this.parentElement.style.background:'#2a2a26';this.style.display='none'">
+          </div>
+          <div class="proc-action-caption">
+            <strong>Prototype &amp; Design System</strong>
+            <p>High-fidelity interactive prototypes with realistic data — used for stakeholder sign-off, developer handoff, and user testing.</p>
+          </div>
+        </div>
+        <div>
+          <div class="proc-action-img">
+            <img src="DS.png" alt="Design system documentation" onerror="this.parentElement.style.background:'#2a2a26';this.style.display='none'">
+          </div>
+          <div class="proc-action-caption">
+            <strong>Delivery — Design System</strong>
+            <p>A shared design system kept all 7+ modules consistent across international teams in France and China.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep dive -->
+  <div class="dd fi">
+    <div class="dd-hdr">
+      <p class="lbl">Deep Dive · Demand Planning Card</p>
+      <h3 class="ttl">Transforming Demand Planning through Design Thinking</h3>
+      <p>A full end-to-end redesign of the most critical module started from a legacy table-based tool to a visual, graph-driven forecasting experience. This is the full design thinking journey.</p>
+    </div>
+
+    <!-- Before / Process / After strip -->
+    <div class="cs-strip fi">
+      <p class="cs-strip-label">The transformation at a glance</p>
+      <div class="cs-img-row">
+        <div class="cs-img-item" style="min-height:160px;">
+          <img src="DP_Before.png" alt="Legacy demand planning interface" onerror="this.style.display='none'">
+          <div class="cs-img-caption"><strong>Before</strong><span>Legacy · table-based · rigid</span></div>
+        </div>
+        <div class="cs-img-item" style="min-height:160px;">
+          <img src="DP_Process.png" alt="Design thinking process — persona, sketches" onerror="this.style.display='none'">
+          <div class="cs-img-caption"><strong>Prototype</strong><span>Adobe XD / Figma · interactive · iterated</span></div>
+        </div>
+        <div class="cs-img-item" style="min-height:160px;">
+          <img src="DP_After.png" alt="New visual demand planning interface" onerror="this.style.display='none'">
+          <div class="cs-img-caption"><strong>After</strong><span>Visual · graph-driven · intuitive</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cgrid">
+      <div class="ccard">
+        <p class="ccard-lbl">The Challenge</p>
+        <h4>Users struggled with a rigid, outdated interface.</h4>
+        <p>The legacy Demand Planning module relied on complex table-based configurations and manual inputs, time-consuming and error-prone. Hidden options, poor navigation, and weak information architecture reduced task completion speed by 50% and significantly lowered user satisfaction.</p>
+      </div>
+      <div class="ccard dk">
+        <p class="ccard-lbl">Problem Statement</p>
+        <h4>"How might we make the Demand Planning tool more performant, ergonomic, simple and efficient to optimise forecasts and anticipate hazards?"</h4>
+        <p>Surfaced through workshops with Professional Services, Architects, and Customer Success teams, and validated against real usage data.</p>
+      </div>
+    </div>
+
+    <div class="journey-panel fi">
+      <p class="lbl">Design Thinking Journey</p>
+      <h4 style="font-family:var(--serif);font-size:1.25rem;">Persona · Pain Points · What We Changed</h4>
+      <div class="journey-3">
+        <div>
+          <p class="j3-lbl">Persona</p>
+          <p class="j3-title">Namadoo, 30  · Demand Planner</p>
+          <p style="font-size:0.82rem;color:var(--mid);line-height:1.68;">Responsible for aligning market predictions with budget constraints. Strong supply chain experience. Uses the tool daily and she wants it to be fast, reliable, and trustworthy.</p>
+          <p class="j3-quote">"I predict the future of our products and I need tools that help me do that with confidence."</p>
+        </div>
+        <div>
+          <p class="j3-lbl">Key Pain Points</p>
+          <ul class="j3-list">
+            <li>Complex tabular configurations, high error risk</li>
+            <li>No visibility of data trends at a glance</li>
+            <li>Hidden options, poor navigation</li>
+            <li>Weak information architecture</li>
+            <li>No distinction between basic and advanced users</li>
+          </ul>
+        </div>
+        <div>
+          <p class="j3-lbl">What We Changed</p>
+          <ul class="j3-list">
+            <li>Timeline-based visual design replacing tables</li>
+            <li>ML model selection built into the interface</li>
+            <li>Configuration separated from mass treatment</li>
+            <li>Organised by usage frequency &amp; user profile</li>
+            <li>Advanced tools for experts; simple defaults for all</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="inums fi">
+      <div class="inum"><span class="inum-big">+30%</span><span class="inum-sm">Faster task completion across all user profiles</span></div>
+      <div class="inum dk"><span class="inum-big">+35%</span><span class="inum-sm">Growth in client user adoption &amp; retention</span></div>
+      <div class="inum"><span class="inum-big">4.8★</span><span class="inum-sm">Gartner peer reviews · 98 verified ratings</span></div>
+      <div class="inum dk"><span class="inum-big">×3</span><span class="inum-sm">Contracts scaled — 2 in 2019 to 6 in 2024</span></div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="fi">
+      <div class="rev-hdr">
+        <div>
+          <p class="lbl">What Clients Say</p>
+          <h4 style="font-family:var(--serif);font-size:1.5rem;">Gartner Peer Reviews</h4>
+        </div>
+        <div class="rbadge">
+          <div><span class="rbadge-stars">★★★★★</span><span class="rbadge-meta">98 verified ratings on Gartner</span></div>
+          <span class="rbadge-num">4.8</span>
+        </div>
+      </div>
+      <div class="rgrid">
+        <div class="rcard"><blockquote>"The Demand Planning Card interface is good looking, intuitive, and powerful — enhancing usability without sacrificing functionality. Furthermore it is highly configurable, easily making it an off-the-shelf solution to deliver a tailored, customized experience."</blockquote><p class="rdate">May 2025 · Verified Gartner Review</p></div>
+        <div class="rcard"><blockquote>"Nice user interface. The Demand Planning Card is highly user friendly. The ability to analyse and calculate the impact of external variables. Flexible in configuration and provides fully customisable solution which fits our company."</blockquote><p class="rdate">June 2024 · Verified Gartner Review</p></div>
+        <div class="rcard"><blockquote>"The end user interface is simple and intuitive. The ability to build custom reporting and modules that fit our requirements. It's clearly an evolving product and I am excited to see what further development will bring."</blockquote><p class="rdate">April 2022 · Verified Gartner Review</p></div>
+        <div class="rcard"><blockquote>"Easily contactable tech support and development team. The solution is simple to use. Flexibility in configuration provides a fully customisable solution."</blockquote><p class="rdate">May 2024 · Verified Gartner Review</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CISCO -->
+<section id="cisco">
+  <div class="cis-grid fi">
+    <div class="cis-txt" style="display:flex;flex-direction:column;">
+      <p class="lbl">Case Study</p>
+      <h2 class="ttl">Designing for Global Telecom Leaders</h2>
+      <p style="font-size:0.92rem;color:var(--mid);line-height:1.8;margin-top:0.75rem;margin-bottom:1rem;">At Cisco's Design Studio, I collaborated with cross-functional teams across Europe, Asia, and the USA to deliver tailored TV and media experiences for Liberty Global and Vodafone — two of the world's largest telecom operators.</p>
+
+      <p class="lbl" style="margin-top:1.5rem;">Liberty Global — The Challenge</p>
+      <ul class="ch-list">
+        <li>Set-top box product matured over 4 years but had usability and practicality issues in key features</li>
+        <li>Country managers across 7 markets reporting user dissatisfaction with certain functionalities</li>
+        <li>Missing features — VOD and Replay TV — were reducing product competitiveness</li>
+      </ul>
+
+      <div class="pmini">
+        <p class="lbl">Process</p>
+        <div class="pmini-step"><span class="pmini-lbl">Client Collaboration</span><p class="pmini-txt">Monthly trips to Amsterdam for reviews, feedback collection, and roadmap discussions. Built trust by actively listening to country managers and addressing regional user needs.</p></div>
+        <div class="pmini-step"><span class="pmini-lbl">Design Tailoring</span><p class="pmini-txt">Analysed feedback to refine existing features. Aligned future features (VOD, Replay) with Liberty Global's specific goals, ensuring scalability across all 7 countries.</p></div>
+        <div class="pmini-step"><span class="pmini-lbl">Cross-Cultural Bridge</span><p class="pmini-txt">Facilitated collaboration between Dutch client teams and Cisco's French Design Studio, resolving misalignments and establishing a collaborative working model.</p></div>
+        <div class="pmini-step"><span class="pmini-lbl">Team Coordination</span><p class="pmini-txt">Led a cross-functional squad of PM, designer, product owner, and technical leader. Indirectly managed graphic and technical designers to align with Liberty Global's standards.</p></div>
+      </div>
+
+      <div class="ci-impacts">
+        <p class="lbl">Impact</p>
+        <div class="ci-item"><div class="ci-dot"></div><p class="ci-txt">Significantly increased user satisfaction, validated by positive feedback from country managers across 7 markets</p></div>
+        <div class="ci-item"><div class="ci-dot"></div><p class="ci-txt">Transformed a tense partnership into a long-term collaborative relationship — improving Cisco's reputation within Liberty Global</p></div>
+        <div class="ci-item"><div class="ci-dot"></div><p class="ci-txt">Introduced VOD and Replay TV features, boosting adoption and market competitiveness</p></div>
+      </div>
+    </div>
+
+    <div class="prod-show">
+      <div class="prod-item">
+        <p class="prod-lbl">Liberty Global · TV set-up box</p>
+        <h4 class="prod-name">Horizon · 7+ countries</h4>
+        <p class="prod-desc">Improved set-top box experience, including VOD and Replay TV. Designed to work across multiple national markets with different content catalogues and cultural expectations.</p>
+        <div class="prod-ph"><img src="UPC TV.png" alt="Liberty Global Horizon"></div>
+      </div>
+      <div class="prod-item">
+        <p class="prod-lbl">Vodafone · Mobile app</p>
+        <h4 class="prod-name">GigaTV · iOS &amp; Android</h4>
+        <p class="prod-desc">Delivered companion TV app across 4 platforms by balancing brand requirements, UX quality, and technical constraints for millions of users.</p>
+        <div class="prod-ph"><img src="Vodafone.png" alt="Vodafone GigaTV"></div>
+      </div>
+      <div class="prod-item">
+        <p class="prod-lbl">Cisco Design Studio</p>
+        <h4 class="prod-name">Snowflake &amp; K products</h4>
+        <p class="prod-desc">Additional custom TV experiences crafted through Cisco's multi-disciplinary design studio, serving other major telecom clients.</p>
+        <div class="prod-ph"><img src="Snowflake.png" alt="Snowflake product"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN THINKING JOURNEY -->
+<section id="journey">
+  <p class="lbl">My Design Process</p>
+  <h2 class="ttl">Design Thinking in Practice</h2>
+  <p class="j-sub">Not a checklist but a way of working. <br>Here's how each step translated into real decisions on real projects, at Sunstice and at Cisco.</p>
+  <div class="jgrid">
+    <div class="jcard fi">
+      <div class="jcard-n">01</div>
+      <p class="jcard-lbl">Discovery</p>
+      <h4 class="jcard-title">Getting to the real problem</h4>
+      <ul class="jcard-list">
+        <li><em style="color:#c8c4be;">At Sunstice:</em> Ran workshops with Professional Services, the team that knew where users actually struggled. Discovered the Demand Planning card wasn't just slow: it was causing misconfiguration.</li>
+        <li><em style="color:#c8c4be;">At Cisco:</em> Monthly trips to Amsterdam to hear Liberty Global country managers describe regional user dissatisfaction first-hand and not filtered through a PM.</li>
+        <li>Output: Consolidated user requirements and their everyday problems.</li>
+      </ul>
+    </div>
+    <div class="jcard fi">
+      <div class="jcard-n">02</div>
+      <p class="jcard-lbl">Ideation</p>
+      <h4 class="jcard-title">Breaking out of the obvious solution</h4>
+      <ul class="jcard-list">
+        <li><em style="color:#c8c4be;">At Sunstice:</em> Crazy 8s sessions stopped the team from just "fixing the table." 8 minutes, 8 sketches, engineers and PS in the room, forced divergence before convergence.</li>
+        <li>Studio Design brought the competing perspectives (UX, tech, business) into one room to challenge and combine concepts.</li>
+        <li>Outcome example: Shifted from table-first to graph-first to a fundamentally different mental model for forecasting.</li>
+      </ul>
+    </div>
+    <div class="jcard fi">
+      <div class="jcard-n">03</div>
+      <p class="jcard-lbl">Prototyping</p>
+      <h4 class="jcard-title">Making it real before building it</h4>
+      <ul class="jcard-list">
+        <li><em style="color:#c8c4be;">At Sunstice and CISCO:</em> High-fidelity prototypes with real supply chain data, not dummy content. Stakeholders could feel the difference immediately.</li>
+        <li><em style="color:#c8c4be;">Investor pitch:</em> Built a futuristic Bloom prototype that secured Cathay Capital and Sagard investment design work that directly drove business outcomes.</li>
+        <li><em style="color:#c8c4be;">Design system:</em> One shared documented library that kept all 7+ modules coherent across France &amp; China teams.</li>
+      </ul>
+    </div>
+    <div class="jcard fi">
+      <div class="jcard-n">04</div>
+      <p class="jcard-lbl">Feedback Loops</p>
+      <h4 class="jcard-title">Iterating until it works in real life</h4>
+      <ul class="jcard-list">
+        <li><em style="color:#c8c4be;">At Sunstice:</em> Professional Services reviewed every cycle and they translated real user friction into design input, not abstract requirements.</li>
+        <li><em style="color:#c8c4be;">At Cisco:</em> Monthly Amsterdam reviews with Liberty Global managers that caught cultural friction early, before it became a delivery crisis.</li>
+        <li>Iterated until Gartner users wrote unprompted: "intuitive, powerful, fully configurable."</li>
+      </ul>
+    </div>
+    <div class="jcard fi">
+      <div class="jcard-n">05</div>
+      <p class="jcard-lbl">Delivery &amp; Impact</p>
+      <h4 class="jcard-title">Measuring what actually changed</h4>
+      <ul class="jcard-list">
+        <li>Increased adoption by 35% across <span class="module-badge">7+ Modules</span></li>
+        <li>+30% usability improvement on the Demand Planning Card across all user profiles.</li>
+        <li>Liberty Global: user satisfaction validated by country manager feedback across 7 markets.</li>
+        <li>Design work featured in Gartner peer reviews — rare for UX to be named specifically by clients.</li>
+      </ul>
+    </div>
+    <div class="jcard fi">
+      <div class="jcard-n">06</div>
+      <p class="jcard-lbl">Leadership</p>
+      <h4 class="jcard-title">Building the conditions for good design</h4>
+      <ul class="jcard-list">
+        <li>Mentored up to 7 designers and integrators, the process was taught, not just applied.</li>
+        <li>At Cisco: bridged Dutch client and French design studio and resolved a long-running collaboration breakdown.</li>
+        <li>At Infor: first designer on SyteLine; evangelised UX thinking in a purely engineering culture.</li>
+        <li>Monthly cross-functional brainstorming sessions kept design from becoming a bottleneck.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text fi">
+    <p class="lbl">About</p>
+    <h2 class="ttl">Innovation, strategy, empathy, and systemic thinking.</h2>
+    <p>I'm a Lead Product Designer with 15+ years of experience bringing clarity and vision to complex enterprise software, transforming intricate business processes and workflows into coherent, scalable, and user-centric solutions.</p>
+    <p>I've worked across large multinationals and mid-size organisations (Sunstice, Cisco, Infor) with a background in Informatics and a Master's in Visual Communication &amp; Marketing. I'm equally comfortable defining UX strategy, leading a design team, presenting to investors, or coding a prototype.</p>
+    <p>Having worked across multiple countries, I design for diverse user groups while balancing local specificities with global consistency and scalability. Recognised for leading and mentoring designers, and for influencing cross-functional, international teams across product, engineering, and business.</p>
+    <div class="lf">
+      <p class="lf-lbl">What I'm Looking For</p>
+      <p>I'm looking for a senior product role, either as a Lead / Senior Product Designer or in a Product management capacity, with a strong emphasis on strategy and experience.</p>
+      <p>I'm drawn to structured organisations working on complex products, where vision, collaboration, and long-term thinking are valued.</p>
+      <p>I thrive in environments where I can help clarify direction, align stakeholders, and elevate the overall product experience.</p>
+    </div>
+  </div>
+  <div class="fi">
+    <div class="sk-grid">
+      <div class="sk-cat"><p class="sk-cat-name">User Experience</p><div class="sk-tags"><span class="sk-tag">Design Thinking</span><span class="sk-tag">User Research</span><span class="sk-tag">Journey Mapping</span><span class="sk-tag">Usability Testing</span><span class="sk-tag">UX Workshops</span><span class="sk-tag">Wireframing</span><span class="sk-tag">Stakeholder Alignment</span></div></div>
+      <div class="sk-cat"><p class="sk-cat-name">Tools &amp; UI</p><div class="sk-tags"><span class="sk-tag">Figma</span><span class="sk-tag">Adobe XD</span><span class="sk-tag">Framer</span><span class="sk-tag">Sketch</span><span class="sk-tag">Zeplin</span><span class="sk-tag">JustInMind</span><span class="sk-tag">Design Systems</span><span class="sk-tag">CSS</span></div></div>
+      <div class="sk-cat"><p class="sk-cat-name">Visual &amp; AI Tools</p><div class="sk-tags"><span class="sk-tag">Illustrator</span><span class="sk-tag">HTML/CSS</span><span class="sk-tag">Firefly</span><span class="sk-tag">Copilot</span><span class="sk-tag">Kling AI</span><span class="sk-tag">ChatGPT</span><span class="sk-tag">Claude</span></div></div>
+      <div class="sk-cat"><p class="sk-cat-name">Planning &amp; Delivery</p><div class="sk-tags"><span class="sk-tag">Miro</span><span class="sk-tag">Aha!</span><span class="sk-tag">Jira</span><span class="sk-tag">Confluence</span><span class="sk-tag">Keynote</span></div></div>
+      <div class="sk-cat"><p class="sk-cat-name">Languages</p><div class="sk-tags"><span class="sk-tag">English · Fluent</span><span class="sk-tag">French · Fluent</span><span class="sk-tag">Romanian · Native</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="lbl">Experience</p>
+  <h2 class="ttl" style="margin-bottom:3rem;">Professional Journey</h2>
+
+  <div class="ex-item fi">
+    <div><p class="ex-co">Sunstice</p><p class="ex-period">2017 – 2025 · 8 years</p></div>
+    <div>
+      <p class="ex-role">Lead Product Designer · Enterprise SaaS &amp; Supply Chain</p>
+      <p class="ex-desc">Led the modernisation of a legacy supply chain system into BLOOM, a scalable SaaS platform. Delivered intuitive modules covering demand planning, supply planning, dashboards, and trade promotions. Worked with 8 international teams in France and China. Mentored up to 7 designers and integrators.</p>
+      <p class="ex-impact">· Drove a 35% increase in user adoption for global leaders like L'Oréal, Heineken &amp; Royal Canin <br>· Achieved a 4.8★ Gartner rating, reflecting high customer satisfaction (98 reviews) <br>· Secured 2 investors Cathay Capital &amp; Sagard <br>· Scaled enterprise operations by 300%, expanding from 2 to 6 major contracts within 5 years</p>
+    </div>
+  </div>
+  <div class="ex-item fi">
+    <div><p class="ex-co">Cisco</p><p class="ex-period">2013 – 2017 · 4 years</p></div>
+    <div>
+      <p class="ex-role">Senior Product Designer · Telecom &amp; Media</p>
+      <p class="ex-desc">Led design of custom set-top box interfaces and companion mobile apps for Liberty Global and Vodafone. Worked with international squads across Europe, Asia, and the USA. Balanced UX and UI strategies across 10+ countries. Travelled regularly to Amsterdam and Munich for client alignment.</p>
+      <p class="ex-impact">· Enhanced Liberty Global set-top box usability across 7 markets <br>· Introduced Replay &amp; VoD features <br>· Delivered Vodafone GigaTV across 4 platforms <br>· Transformed tense client relationship into a long-term partnership</p>
+    </div>
+  </div>
+  <div class="ex-item fi">
+    <div><p class="ex-co">Infor</p><p class="ex-period">2012 – 2013 · 1 year</p></div>
+    <div>
+      <p class="ex-role">UX Engineer · Business Intelligence</p>
+      <p class="ex-desc">First designer on the SyteLine ERP application. Established and championed design practices, evangelised UX/UI principles, and drove a shift toward user-centric thinking across the organisation. Bridged UI design with front-end development.</p>
+      <p class="ex-impact">· Defined SyteLine's look &amp; feel <br>· Positioned the app as a more competitive solution within the BI product suite</p>
+    </div>
+  </div>
+  <div class="ex-item fi">
+    <div><p class="ex-co">Freelance</p><p class="ex-period">2009 – 2013 · 4 years</p></div>
+    <div>
+      <p class="ex-role">Product, UX &amp; UI Designer · SaaS &amp; Mobile</p>
+      <p class="ex-desc">Led end-to-end design of 10+ web, 7 mobile, and 1 educational product for clients in Europe, USA, and Australia. Designed and built Karbostream, an educational platform for US teachers. Advised stakeholders on UX/UI best practices.</p>
+      <p class="ex-impact">· 5 Android games with Top 100 rankings <br>· Karbostream adopted by 4 schools in North &amp; South Carolina</p>
+    </div>
+  </div>
+  <div class="ex-item fi">
+    <div><p class="ex-co">Masstech</p><p class="ex-period">2007 – 2009 · 2 years</p></div>
+    <div>
+      <p class="ex-role">UI Engineer · Enterprise Prototyping</p>
+      <p class="ex-desc">Created 10+ prototypes and cohesive UI elements for enterprise applications in the R&amp;D department. Worked with sales teams to balance functionality and aesthetics across 8 main prototyping projects.</p>
+      <p class="ex-impact">Engineered high-fidelity prototypes for major international forums (NAB &amp;  IBC), directly enabling the sales team to secure new business through visual innovation.</p>
+    </div>
+  </div>
+
+  <div class="edu-grid fi">
+    <div>
+      <p class="lbl">Education &amp; Certifications</p>
+      <div class="edu-row-item"><p class="edu-period">In Progress</p><p class="edu-title">Project Management Professional (PMP)</p><p class="edu-sub">Project Management Institute</p></div>
+      <div class="edu-row-item"><p class="edu-period">January 2026</p><p class="edu-title">Conduire et piloter un projet innovant avec des méthodes agiles</p><p class="edu-sub">Oriions</p></div>
+      <div class="edu-row-item"><p class="edu-period">April 2025</p><p class="edu-title">UX Management Certification</p><p class="edu-sub">Nielsen Norman Group</p></div>
+      <div class="edu-row-item"><p class="edu-period">2006 – 2008</p><p class="edu-title">Master of Arts · Visual Communication &amp; Marketing</p><p class="edu-sub">West University of Timisoara</p></div>
+      <div class="edu-row-item"><p class="edu-period">2002 – 2006</p><p class="edu-title">Bachelor of Science · Informatics</p><p class="edu-sub">West University of Timisoara</p></div>
+    </div>
+    <div>
+      <p class="lbl">Domains &amp; Industries</p>
+      <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:0.4rem;">
+        <span class="sk-tag">Enterprise SaaS</span><span class="sk-tag">Supply Chain</span><span class="sk-tag">Telecom &amp; Media</span>
+        <span class="sk-tag">Business Intelligence</span><span class="sk-tag">ERP</span><span class="sk-tag">Data Visualization</span>
+        <span class="sk-tag">Mobile Apps</span><span class="sk-tag">Educational Tech</span><span class="sk-tag">System Modernization</span>
+        <span class="sk-tag">TV &amp; Set-Top Box</span><span class="sk-tag">Broadcast &amp; Media</span><span class="sk-tag">B2B Products</span>
+        <span class="sk-tag">Cross-Cultural Design</span><span class="sk-tag">Multi-market Deployment</span><span class="sk-tag">Design Leadership</span>
+        <span class="sk-tag">Investor Presentations</span><span class="sk-tag">Product Strategy</span><span class="sk-tag">Agile / Scrum</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="lbl">Contact</p>
+  <h2 class="ttl" style="color:white;font-size:clamp(1.8rem,3vw,2.6rem);margin-bottom:4rem;">Let's work together.</h2>
+  <p class="c-sub">I'm currently open to Senior product design and Product management roles, particularly in structured organisations working on complex, meaningful products.</p>
+  <div class="c-links">
+    <a class="c-link">rianago @ gmail.com</a>
+    <a href="https://www.linkedin.com/in/rianago" target="_blank" class="c-link">LinkedIn</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Riana Terter — Lead Product Designer · Strategy &amp; Experience</p>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('vis'), i * 65);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.fi').forEach(el => io.observe(el));
+
+  // Nav active state
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 150) cur = s.id; });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+  });
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCap = document.getElementById('lightbox-caption');
+  const lbClose = document.getElementById('lightbox-close');
+
+  function openLightbox(src, caption) {
+    lbImg.src = src;
+    lbCap.textContent = caption || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Wire up all images that should trigger lightbox
+  // Exclude hero and pcard images (those are decorative/bg)
+  const lightboxSelectors = [
+    '.mcard-img img',
+    '.cs-img-item img',
+    '.proc-action-img img',
+    '.prod-ph img',
+    '.riana-img img'
+  ];
+  document.querySelectorAll(lightboxSelectors.join(',')).forEach(img => {
+    img.classList.add('lightbox-trigger');
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const caption = img.closest('[data-caption]')?.dataset.caption
+        || img.alt
+        || '';
+      openLightbox(img.src, caption);
+    });
+  });
+</script>
+</body>
+</html>
