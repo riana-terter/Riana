@@ -51,11 +51,11 @@
     .btn-p:hover { background: var(--red); }
     .btn-s { display: inline-block; padding: 0.82rem 2rem; border: 1px solid var(--charcoal); color: var(--charcoal); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
     .btn-s:hover { border-color: var(--red); color: var(--red); }
-    .hero-stats { display: flex; gap: 2.25rem; flex-direction: row; }
+    .hero-stats { display: flex; gap: 2.25rem; flex-direction: row; flex-wrap: wrap;}
     .stat-num { font-family: var(--serif); font-size: 1.9rem; font-weight: 700; color: var(--red); display: block; line-height: 1; }
     .stat-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
-    .hero-image { display: flex; align-items: center; max-width: 640px; align-self: stretch; }
-    .hero-image img { width: 100%; height: 100%; object-fit: cover; object-fit: contain; object-position: left center; display: block; padding: 1rem;}
+    .hero-image { display: flex; align-items: center; max-width: 640px; align-self: stretch; padding: 1rem;}
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; object-fit: contain; object-position: left center; display: block; }
     .hero-ph { width: 100%; height: 100%; background: linear-gradient(160deg,#e4dfd8 0%,#ccc7bf 100%); display: flex; align-items: center; justify-content: center; }
 
     /* SHARED */
@@ -131,7 +131,7 @@
     .pcard-side-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
     .pcard-side-tag { font-size: 0.6rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.15rem 0.55rem; border: 1px solid rgba(249,247,244,0.2); color: rgba(249,247,244,0.5); border-radius: 999px; }
 
-    @media (max-width: 900px) {
+  @media (max-width: 900px) {
       .pcard-main { grid-template-columns: 1fr; }
       .pcard-main-img { min-height: 220px; }
       .pgrid { grid-template-columns: 1fr; }
@@ -252,7 +252,7 @@
     .prod-desc { font-size: 0.83rem; color: var(--mid); line-height: 1.62; }
     .prod-ph { width: 100%; margin-top: 0.85rem; display: flex; align-items: center; justify-content: center; aspect-ratio: 16/9; }
     .prod-ph span { font-family: var(--serif); font-style: italic; color: rgba(255,255,255,0.14); font-size: 0.82rem; }
-    .prod-ph img {max-width: 30rem; border-radius: 2rem;}
+    .prod-ph img {border-radius: 2rem; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;}
 
     /* JOURNEY */
     #journey { padding: 6rem 8rem; background: var(--charcoal); }
@@ -313,14 +313,15 @@
     .fi.vis { opacity: 1; transform: none; border-radius: 2rem}
 
     /* RESPONSIVE */
-    @media (max-width: 1100px) {
+   @media (max-width: 1100px) {
       nav { padding: 1rem 2.5rem; }
       section, #work, #sunstice, #cisco, #about, #experience, #journey { padding-left: 3rem; padding-right: 3rem; }
       .proc-band { margin: 0 -3rem; padding: 4rem 3rem; }
     }
-    @media (max-width: 900px) {
+      @media (max-width: 900px) {
       .nav-links { display: none; }
-      #hero { grid-template-columns: 1fr; }
+      #hero  { grid-template-columns: 1fr; }
+      .hero-image { padding: 2rem 0rem 0rem 0rem;}
       .pcard.wide { grid-column: span 1; aspect-ratio: 4/3; }
       .pgrid, .psteps, .mgrid, .cgrid, .inums, .jgrid, .rgrid, .cis-grid, .cs-hdr, #about { grid-template-columns: 1fr; }
       .pgrid { grid-template-columns: 1fr; }
@@ -714,7 +715,7 @@
         </div>
       </div>
       <div class="rgrid">
-        <div class="rcard"><blockquote>"The Demand Planning Card interface is good looking, intuitive, and powerful — enhancing usability without sacrificing functionality. Furthermore it is highly configurable, easily making it an off-the-shelf solution to deliver a tailored, customized experience."</blockquote><p class="rdate">May 2025 · Verified Gartner Review</p></div>
+        <div class="rcard"><blockquote>"The Demand Planning Card interface is good looking, intuitive, and powerful — enhancing usability without sacrificing functionality. Furthermore it is highly configurable, easily making it an off-the-shelf solution to deliver a tailored, customised experience."</blockquote><p class="rdate">May 2025 · Verified Gartner Review</p></div>
         <div class="rcard"><blockquote>"Nice user interface. The Demand Planning Card is highly user friendly. The ability to analyse and calculate the impact of external variables. Flexible in configuration and provides fully customisable solution which fits our company."</blockquote><p class="rdate">June 2024 · Verified Gartner Review</p></div>
         <div class="rcard"><blockquote>"The end user interface is simple and intuitive. The ability to build custom reporting and modules that fit our requirements. It's clearly an evolving product and I am excited to see what further development will bring."</blockquote><p class="rdate">April 2022 · Verified Gartner Review</p></div>
         <div class="rcard"><blockquote>"Easily contactable tech support and development team. The solution is simple to use. Flexibility in configuration provides a fully customisable solution."</blockquote><p class="rdate">May 2024 · Verified Gartner Review</p></div>
@@ -933,8 +934,8 @@
       <p class="lbl">Domains &amp; Industries</p>
       <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:0.4rem;">
         <span class="sk-tag">Enterprise SaaS</span><span class="sk-tag">Supply Chain</span><span class="sk-tag">Telecom &amp; Media</span>
-        <span class="sk-tag">Business Intelligence</span><span class="sk-tag">ERP</span><span class="sk-tag">Data Visualization</span>
-        <span class="sk-tag">Mobile Apps</span><span class="sk-tag">Educational Tech</span><span class="sk-tag">System Modernization</span>
+        <span class="sk-tag">Business Intelligence</span><span class="sk-tag">ERP</span><span class="sk-tag">Data Visualisation</span>
+        <span class="sk-tag">Mobile Apps</span><span class="sk-tag">Educational Tech</span><span class="sk-tag">System Modernisation</span>
         <span class="sk-tag">TV &amp; Set-Top Box</span><span class="sk-tag">Broadcast &amp; Media</span><span class="sk-tag">B2B Products</span>
         <span class="sk-tag">Cross-Cultural Design</span><span class="sk-tag">Multi-market Deployment</span><span class="sk-tag">Design Leadership</span>
         <span class="sk-tag">Investor Presentations</span><span class="sk-tag">Product Strategy</span><span class="sk-tag">Agile / Scrum</span>
