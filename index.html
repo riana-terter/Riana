@@ -39,7 +39,7 @@
     .nav-links a:hover, .nav-links a.active { color: var(--red); }
 
     /* HERO */
-    #hero { min-height: 80vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; align-items: stretch; }
+    #hero { display: grid; padding-top: 80px; padding-bottom: 1rem; align-content: center; }
     .hero-text { display: flex; flex-direction: column; justify-content: center; padding-right: 2rem;}
     .hero-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 1.4rem; }
     .hero-name { font-family: var(--serif); font-size: clamp(3rem, 5.5vw, 5rem); line-height: 1.05; font-weight: 700; margin-bottom: 1rem; }
@@ -320,8 +320,8 @@
     }
       @media (max-width: 900px) {
       .nav-links { display: none; }
-      #hero  { grid-template-columns: 1fr; }
-      .hero-image { padding: 2rem 0rem 0rem 0rem;}
+      #hero-main  { grid-template-columns: 1fr; }
+      .hero-image { padding: 0rem 0rem 2rem 0rem;}
       .pcard.wide { grid-column: span 1; aspect-ratio: 4/3; }
       .pgrid, .psteps, .mgrid, .cgrid, .inums, .jgrid, .rgrid, .cis-grid, .cs-hdr, #about { grid-template-columns: 1fr; }
       .pgrid { grid-template-columns: 1fr; }
@@ -346,7 +346,7 @@
     }
     #lightbox.open { display: flex; }
     #lightbox img {
-      max-width: 92vw; max-height: 90vh;
+      max-width: 64vw; max-height: 64vh;
       object-fit: contain; border-radius: 1rem;
       box-shadow: 0 32px 80px rgba(0,0,0,0.6);
       animation: lb-in 0.22s ease;
@@ -389,8 +389,9 @@
 
 <!-- HERO -->
 <section id="hero">
+ <p class="hero-eyebrow">Lead Product Designer · Strategy · Experience · Emerging Tech</p>
+<div class="pgrid">
   <div class="hero-text">
-    <p class="hero-eyebrow">Lead Product Designer · Strategy &amp; Experience</p>
     <h1 class="hero-name">Riana TERTER</h1>
     <p class="hero-title">Bringing clarity &amp; vision <br> to complex enterprise products.</p>
     <p class="hero-bio">Design leader operating at the intersection of <strong> product, design, and engineering, </strong> with 15+ years of experience in large multinational and mid-size organizations such as Sunstice, Cisco, and Infor.  <p class="hero-bio">  Expertise in enterprise <strong>SaaS, data-intensive products, data visualization, and system modernization</strong>. Strong track record of bringing clarity and product vision to complex systems by transforming intricate business processes and workflows into coherent, scalable, and user-centric solutions, while balancing user needs, technical constraints, and business objectives. </p><p class="hero-bio"> Background in <strong>Informatics</strong> and <strong>Visual Communication</strong>, with <strong> NNg UX Management </strong> certification and currently preparing for the <strong>PMP certification</strong> to reinforce strategic delivery skills. Fluent in English, French, and Romanian.</p></p>
@@ -398,17 +399,19 @@
       <a href="#work" class="btn-p">View Work</a>
       <a href="#contact" class="btn-s">Get in Touch</a>
     </div>
-    <div class="hero-stats">
+   
+  </div>
+  <div class="hero-image">
+   <img src="MyJourney.png" alt="Riana">
+  </div>
+  </div>
+   <div class="hero-stats">
       <div><span class="stat-num">15+</span><span class="stat-label">Years exp.</span></div>
       <div><span class="stat-num">20+</span><span class="stat-label">Products</span></div>
       <div><span class="stat-num">35%</span><span class="stat-label">Adoption Lift</span></div>
       <div><span class="stat-num">10+</span><span class="stat-label">Countries</span></div>
       <div><span class="stat-num">4.8★</span><span class="stat-label">Gartner</span></div>
     </div>
-  </div>
-  <div class="hero-image">
-   <img src="MyJourney.png" alt="Riana">
-  </div>
 </section>
 
 <!-- WORK OVERVIEW -->
@@ -429,7 +432,7 @@
         <div class="pcard-main-top">
           <p class="pco">Sunstice · 2017–2025</p>
           <h3>BLOOM · Supply Chain Management System</h3>
-          <p>Rebuilt a legacy platform into a visual-first enterprise SaaS from scratch, designing 7+ modules for global leaders like L'Oréal, Heineken and Royal Canin.</p>
+          <p>Transformed a complex legacy ecosystem into a scalable, visual-first SaaS. Directed the UX strategy for 7+ modules, integrating predictive analytics for global leaders like L’Oréal, Heineken, and Royal Canin.</p>
         </div>
         <div class="pcard-main-bottom">
           <div class="pcard-main-tags">
@@ -448,7 +451,7 @@
       <div class="pcard-side-body">
         <p class="pco">Cisco · 2015–2017</p>
         <h3>Vodafone GigaTV · Mobile App</h3>
-        <p class="pdesc">Delivered the GigaTV experience across iOS, Android, mobile and tablet for millions of users.</p>
+        <p class="pdesc">Launched the GigaTV experience across iOS, Android, mobile and tablet for millions of users.</p>
         <div class="pcard-side-tags">
           <span class="pcard-side-tag">iOS &amp; Android</span><span class="pcard-side-tag">Mobile</span><span class="pcard-side-tag">TV UX</span><span class="pcard-side-tag">Mobile VOD</span>
         </div>
@@ -497,7 +500,7 @@
   <div class="fi" style="margin-bottom:1.25rem;">
     <p class="lbl">Platform Modules</p>
     <h3 class="ttl" style="margin-bottom:0.5rem;">7+ Modules, Designed from the scratch</h3>
-    <p style="font-size:0.91rem;color:var(--mid);max-width:560px;line-height:1.8;margin-bottom:2rem;">Each module shaped through iterative research, ideation, and close collaboration with stakeholders and created intuitive experiences that simplify complexity while maximising efficiency.</p>
+    <p style="font-size:0.91rem;color:var(--mid);line-height:1.8;margin-bottom:2rem;">Each module shaped through iterative research, ideation, and close collaboration with stakeholders and created intuitive experiences that simplify complexity while maximising efficiency.</p>
   </div>
   <div class="mgrid fi">
     <div class="mcard">
@@ -639,11 +642,11 @@
           <div class="cs-img-caption"><strong>Before</strong><span>Legacy · table-based · rigid</span></div>
         </div>
         <div class="cs-img-item" style="min-height:160px;">
-          <img src="DP_Process.png" alt="Design thinking process — persona, sketches" onerror="this.style.display='none'">
-          <div class="cs-img-caption"><strong>Prototype</strong><span>Adobe XD / Figma · interactive · iterated</span></div>
+          <img src="DP.png" alt="The Vision · Last Prototype" onerror="this.style.display='none'">
+          <div class="cs-img-caption"><strong>The Vision</strong><span>Interactive prototype · iterated</span></div>
         </div>
         <div class="cs-img-item" style="min-height:160px;">
-          <img src="DP_After.png" alt="New visual demand planning interface" onerror="this.style.display='none'">
+          <img src="DP_After.png" alt="The Reality · Production Implementation" onerror="this.style.display='none'">
           <div class="cs-img-caption"><strong>After</strong><span>Visual · graph-driven · intuitive</span></div>
         </div>
       </div>
