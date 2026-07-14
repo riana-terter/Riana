@@ -100,10 +100,31 @@
     pointer-events: none; z-index: 3;
   }
 
+  #btnMenu {
+    display: none;
+    font-size: 20px; line-height: 1;
+    padding: 8px 12px;
+    pointer-events: auto;
+  }
+
   @media (prefers-reduced-motion: reduce) { #hint { animation: none; } }
   @media (max-width: 640px) {
-    header { flex-direction: column; gap: 12px; }
-    .controls { justify-content: flex-start; }
+    header { padding: 14px 16px 30px; align-items: center; }
+    #btnMenu { display: block; }
+    .controls {
+      display: none;
+      position: fixed; top: 62px; right: 12px;
+      flex-direction: column; align-items: stretch;
+      gap: 8px;
+      background: rgba(6,11,26,0.92);
+      border: 1px solid rgba(234,240,255,0.2);
+      border-radius: 10px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+    .controls.open { display: flex; }
+    .controls button { text-align: left; }
     #hint { bottom: 30vh; }
   }
 </style>
@@ -116,11 +137,12 @@
     <h1><span class="tricolore"><i></i><i></i><i></i></span>Feu d'<span class="accent">Artifice</span></h1>
     <div class="subtitle" id="subtitle">14 juillet · Fête nationale</div>
   </div>
-  <div class="controls">
+  <button id="btnMenu" aria-label="Menu" aria-expanded="false">☰</button>
+  <div class="controls" id="controls">
     <button id="btnSound" aria-pressed="false">🔇 <span>Son</span></button>
     <button id="btnAuto" aria-pressed="false"><span>Spectacle auto</span></button>
     <button id="btnFinale" class="finale"><span>Bouquet final</span></button>
-    <button id="btnLang">EN</button>
+    <button id="btnDrones"><span>Drones ✦</span></button>
   </div>
 </header>
 
@@ -129,27 +151,6 @@
 
 <script>
 'use strict';
-
-/* ============================== i18n ============================== */
-const STRINGS = {
-  fr: {
-    subtitle: '14 juillet · Fête nationale',
-    sound: 'Son',
-    auto: 'Spectacle auto',
-    finale: 'Bouquet final',
-    hint: 'Touchez le ciel pour lancer une fusée ✨',
-    lang: 'EN'
-  },
-  en: {
-    subtitle: 'July 14 · Bastille Day',
-    sound: 'Sound',
-    auto: 'Auto show',
-    finale: 'Grand finale',
-    hint: 'Tap the sky to launch a rocket ✨',
-    lang: 'FR'
-  }
-};
-let lang = 'fr';
 
 /* ============================== Canvas ============================== */
 const canvas = document.getElementById('sky');
@@ -381,6 +382,216 @@ function makeParticle(x, y, vx, vy, color, opts) {
   };
 }
 
+/* ============================== Drones ============================== */
+// Light-drone formations, like the recent July 14 shows:
+// a heart, a second Eiffel Tower, and the outline of the Paris map.
+const drones = [];
+const DRONE_COUNT = reducedMotion ? 110 : 240;
+const DRONE_SHAPES = ['heart', 'bridge', 'paris'];
+const DRONE_COLORS = {
+  heart: { h: 4,   s: 90, l: 62 },   // red heart
+  bridge: { h: 210, s: 30, l: 88 },
+  paris: { h: 210, s: 30, l: 88 }
+};
+const D_ICE  = { h: 210, s: 30, l: 88 };   // white structure
+const D_BLUE = { h: 212, s: 85, l: 66 };   // bright blue accents
+let droneIdx = -1, dronePhase = 'idle', droneTimer = 0;
+
+function samplePolylines(lines, n) {
+  // Distribute n drones evenly along a set of polylines, keeping each line's color
+  const segs = [];
+  let total = 0;
+  for (const ln of lines) {
+    const m = ln.closed ? ln.pts.length : ln.pts.length - 1;
+    for (let i = 0; i < m; i++) {
+      const a = ln.pts[i], b = ln.pts[(i + 1) % ln.pts.length];
+      const len = Math.hypot(b.x - a.x, b.y - a.y);
+      if (len > 0.01) { segs.push({ a, b, len, c: ln.c }); total += len; }
+    }
+  }
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    let d = ((i + 0.5) / n) * total;
+    for (const s of segs) {
+      if (d <= s.len) {
+        const t = d / s.len;
+        out.push({ x: s.a.x + (s.b.x - s.a.x) * t, y: s.a.y + (s.b.y - s.a.y) * t, c: s.c });
+        break;
+      }
+      d -= s.len;
+    }
+  }
+  while (out.length < n) out.push(out[out.length - 1]);
+  return out;
+}
+
+function shapePoints(name, n) {
+  const cx = W * 0.5, cy = H * 0.30, S = Math.min(W, H) * 0.28;
+
+  if (name === 'heart') {
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const t = (i / n) * Math.PI * 2;
+      const hx = 16 * Math.pow(Math.sin(t), 3);
+      const hy = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+      pts.push({ x: cx + hx * (S / 16), y: cy - hy * (S / 16) });
+    }
+    return pts;
+  }
+
+  if (name === 'bridge') {
+    // The spiral aqueduct from the show: a ribbon winding upward,
+    // blue deck bands on the front arcs, white arches hanging beneath.
+    const lines = [];
+    const turns = 2.2;
+    const Rx = S * 0.85, Ry = S * 0.26;
+    const climb = S * 1.55;
+    const yBottom = cy + S * 0.75;
+    const P = 150; // path resolution
+    // Build the spiral in segments so front (blue deck) and back (white) alternate
+    let cur = null, curFront = null;
+    for (let i = 0; i <= P; i++) {
+      const u = i / P;
+      const th = u * turns * Math.PI * 2 - Math.PI / 2;
+      const front = Math.sin(th) > 0.25;
+      const x = cx + Rx * (1 - 0.18 * u) * Math.cos(th);
+      const y = yBottom - climb * u + Ry * Math.sin(th);
+      if (front !== curFront) {
+        if (cur && cur.pts.length > 1) lines.push(cur);
+        cur = { c: front ? D_BLUE : D_ICE, pts: [] };
+        curFront = front;
+      }
+      cur.pts.push({ x, y });
+    }
+    if (cur && cur.pts.length > 1) lines.push(cur);
+    // Hanging arches under the front deck bands
+    const archW = S * 0.34, archH = S * 0.30;
+    for (let j = 0; j < 8; j++) {
+      const u = 0.06 + (j / 8) * 0.88;
+      const th = u * turns * Math.PI * 2 - Math.PI / 2;
+      if (Math.sin(th) < 0.45) continue; // only under visible deck
+      const ax = cx + Rx * (1 - 0.18 * u) * Math.cos(th);
+      const ay = yBottom - climb * u + Ry * Math.sin(th);
+      const arch = { c: D_ICE, pts: [] };
+      for (let m = 0; m <= 8; m++) {
+        const t = m / 8;
+        arch.pts.push({
+          x: ax + (t - 0.5) * archW,
+          y: ay + archH - archH * Math.sin(Math.PI * t) * 0.92
+        });
+      }
+      lines.push(arch);
+    }
+    return samplePolylines(lines, n);
+  }
+
+  // paris — the drone map: boundary, Seine in blue, and the arrondissement web
+  const N = (x, y) => ({ x: cx + x * S * 1.35, y: cy - y * S * 1.35 });
+  const L = (c, arr, closed) => ({ c, closed, pts: arr.map(p => N(p[0], p[1])) });
+  const lines = [
+    // Le periph
+    L(D_ICE, [
+      [-1.00,-0.02],[-0.94,0.24],[-0.80,0.42],[-0.55,0.56],[-0.25,0.66],
+      [0.08,0.70],[0.40,0.66],[0.68,0.58],[0.90,0.42],[1.02,0.20],
+      [1.00,-0.02],[0.90,-0.18],[0.94,-0.32],[0.82,-0.46],[0.55,-0.56],
+      [0.25,-0.64],[-0.08,-0.68],[-0.40,-0.62],[-0.66,-0.52],[-0.86,-0.38],
+      [-0.98,-0.20]
+    ], true),
+    // La Seine — bright blue, east to southwest
+    L(D_BLUE, [
+      [1.00,-0.02],[0.72,-0.08],[0.45,-0.12],[0.20,-0.10],[-0.02,-0.02],
+      [-0.25,-0.06],[-0.45,-0.16],[-0.65,-0.30],[-0.85,-0.46],[-0.96,-0.52]
+    ]),
+    // Inner web of boulevards
+    L(D_ICE, [
+      [0.40,0.08],[0.20,0.20],[-0.06,0.24],[-0.32,0.16],
+      [-0.44,0.00],[-0.34,-0.12],[-0.10,-0.18],[0.18,-0.16],[0.38,-0.06]
+    ], true),
+    // Radials to the north boundary
+    L(D_ICE, [[-0.32,0.16],[-0.48,0.58]]),
+    L(D_ICE, [[-0.06,0.24],[-0.10,0.67]]),
+    L(D_ICE, [[0.20,0.20],[0.30,0.67]]),
+    L(D_ICE, [[0.40,0.08],[0.72,0.55]]),
+    // East-west connectors
+    L(D_ICE, [[-0.44,0.00],[-0.98,-0.02]]),
+    L(D_ICE, [[0.40,0.08],[0.75,0.12],[1.00,0.10]]),
+    // Radials to the south
+    L(D_ICE, [[-0.34,-0.12],[-0.52,-0.56]]),
+    L(D_ICE, [[-0.10,-0.18],[-0.14,-0.66]]),
+    L(D_ICE, [[0.18,-0.16],[0.30,-0.62]]),
+    L(D_ICE, [[0.38,-0.06],[0.62,-0.52]]),
+    // A couple of inner crossings for the arrondissement cells
+    L(D_ICE, [[-0.06,0.24],[0.00,-0.02],[-0.10,-0.18]]),
+    L(D_ICE, [[-0.70,0.30],[-0.32,0.16]]),
+    L(D_ICE, [[0.55,-0.30],[0.18,-0.16]])
+  ];
+  return samplePolylines(lines, n);
+}
+
+function setDroneTargets(name) {
+  const pts = shapePoints(name, drones.length);
+  const color = DRONE_COLORS[name];
+  drones.forEach((d, i) => { d.tx = pts[i].x; d.ty = pts[i].y; d.color = pts[i].c || color; });
+}
+
+function startDroneShow() {
+  hideHint();
+  if (dronePhase !== 'idle') { advanceDrones(); return; } // press again = next shape
+  drones.length = 0;
+  // take off from behind the tower base, staggered
+  for (let i = 0; i < DRONE_COUNT; i++) {
+    drones.push({
+      x: W * 0.5 + rand(-W * 0.12, W * 0.12),
+      y: H + rand(10, 160),
+      tx: 0, ty: 0,
+      color: DRONE_COLORS.heart,
+      flicker: rand(0, Math.PI * 2)
+    });
+  }
+  droneIdx = 0;
+  setDroneTargets(DRONE_SHAPES[0]);
+  dronePhase = 'assembling';
+  droneTimer = 0;
+}
+
+function advanceDrones() {
+  droneIdx++;
+  if (droneIdx >= DRONE_SHAPES.length) {
+    dronePhase = 'leaving';
+    drones.forEach(d => { d.tx = d.x + rand(-60, 60); d.ty = H + 200; });
+  } else {
+    setDroneTargets(DRONE_SHAPES[droneIdx]);
+    dronePhase = 'assembling';
+    droneTimer = 0;
+  }
+}
+
+function updateDrones(dt, now) {
+  if (dronePhase === 'idle') return;
+  droneTimer += dt;
+
+  for (const d of drones) {
+    d.x += (d.tx - d.x) * 0.035 * dt;
+    d.y += (d.ty - d.y) * 0.035 * dt;
+  }
+  if (dronePhase === 'assembling' && droneTimer > 170) { dronePhase = 'holding'; droneTimer = 0; }
+  else if (dronePhase === 'holding' && droneTimer > 300) { advanceDrones(); }
+  else if (dronePhase === 'leaving' && droneTimer > 220) { dronePhase = 'idle'; drones.length = 0; }
+
+  // Render: steady glowing dots, gentle shimmer
+  for (const d of drones) {
+    const tw = 0.75 + Math.sin(now / 300 + d.flicker) * 0.25;
+    ctx.fillStyle = hsl(d.color, undefined, 0.16 * tw);
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = hsl(d.color, Math.min(d.color.l + 20, 90), 0.95 * tw);
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
 /* ============================== Modes ============================== */
 let autoMode = false, autoTimer = 0;
 let finaleQueue = 0, finaleTimer = 0;
@@ -506,6 +717,9 @@ function frame(now) {
     }
   }
 
+  // Drones (drawn over the fireworks, steady lights)
+  updateDrones(dt, now);
+
   requestAnimationFrame(frame);
 }
 
@@ -513,23 +727,14 @@ function frame(now) {
 const btnSound = document.getElementById('btnSound');
 const btnAuto = document.getElementById('btnAuto');
 const btnFinale = document.getElementById('btnFinale');
-const btnLang = document.getElementById('btnLang');
+const btnDrones = document.getElementById('btnDrones');
+const btnMenu = document.getElementById('btnMenu');
+const controls = document.getElementById('controls');
 const hint = document.getElementById('hint');
 let hintHidden = false;
 
 function hideHint() {
   if (!hintHidden) { hint.classList.add('hidden'); hintHidden = true; }
-}
-
-function applyLang() {
-  const s = STRINGS[lang];
-  document.getElementById('subtitle').textContent = s.subtitle;
-  btnSound.querySelector('span').textContent = s.sound;
-  btnAuto.querySelector('span').textContent = s.auto;
-  btnFinale.querySelector('span').textContent = s.finale;
-  hint.textContent = s.hint;
-  btnLang.textContent = s.lang;
-  document.documentElement.lang = lang;
 }
 
 btnSound.addEventListener('click', () => {
@@ -549,10 +754,18 @@ btnAuto.addEventListener('click', () => {
 });
 
 btnFinale.addEventListener('click', startFinale);
+btnDrones.addEventListener('click', startDroneShow);
 
-btnLang.addEventListener('click', () => {
-  lang = lang === 'fr' ? 'en' : 'fr';
-  applyLang();
+btnMenu.addEventListener('click', () => {
+  const open = controls.classList.toggle('open');
+  btnMenu.setAttribute('aria-expanded', open);
+});
+// Close the mobile menu after choosing an action
+controls.addEventListener('click', () => {
+  if (controls.classList.contains('open')) {
+    controls.classList.remove('open');
+    btnMenu.setAttribute('aria-expanded', 'false');
+  }
 });
 
 canvas.addEventListener('pointerdown', e => {
@@ -563,7 +776,6 @@ canvas.addEventListener('pointerdown', e => {
 
 // Init
 resize();
-applyLang();
 setTimeout(() => launch(W * 0.5, H * 0.22, 'tricolore'), 700);
 requestAnimationFrame(frame);
 </script>
