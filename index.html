@@ -451,30 +451,16 @@ eperiment<!DOCTYPE html>
 
     /* Deep dive */
     .dd-hdr p { font-size: 0.95rem; color: var(--mid); line-height: 1.8; margin-top: 0.7rem; margin-bottom: 2.5rem; max-width: 760px; }
-    .cs-strip { margin: 0 0 2rem; }
     .cs-strip-label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 1.3rem; }
-    .cs-img-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.05rem; }
-    .cs-img-item { position: relative; background: var(--bg3); overflow: hidden; border-radius: 1.25rem; border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: flex-end; min-height: 180px; }
-    .cs-img-item img { height: 100%; display: block; object-fit: cover; }
-    .cs-img-caption { padding: 0.9rem 1.5rem; background: rgba(var(--bg-rgb),0.88); backdrop-filter: blur(4px); flex-shrink: 0; }
-    .cs-img-caption strong { font-family: var(--mono); font-size: 0.74rem; color: var(--text); display: block; letter-spacing: 0.12em; text-transform: uppercase; }
-    .cs-img-caption span { font-size: 0.78rem; color: var(--mid); }
-    .cgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.05rem; margin-bottom: 1.05rem; }
-    .ccard { padding: 2.1rem; border-radius: 1.25rem; }
-    .ccard-lbl { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 0.85rem; }
-    .ccard h4 { font-family: var(--serif); font-weight: 600; font-size: 1.18rem; margin-bottom: 0.8rem; line-height: 1.35; }
-    .ccard p { font-size: 0.89rem; line-height: 1.72; }
-    .ccard.lt { background: var(--bg); border: 1px solid var(--line); }
-    .ccard.lt h4 { color: var(--text); }
-    .ccard.lt p { color: var(--mid); }
-    .ccard.dk { background: var(--red-soft); border: 1px solid var(--red-border); }
-    .ccard.dk h4 { color: var(--text); }
-    .ccard.dk p { color: var(--mid); }
     .journey-panel { background: var(--bg); border: 1px solid var(--line); border-radius: 1.25rem; padding: 2.4rem; margin-bottom: 1.05rem; }
     .journey-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-top: 1.6rem; }
     .j3-lbl { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
     .j3-title { font-family: var(--serif); font-weight: 600; font-size: 1.02rem; margin-bottom: 0.5rem; }
     .j3-quote { font-size: 0.84rem; font-style: italic; line-height: 1.6; background: var(--bg3); border-left: 2px solid var(--red); padding: 0.75rem 0.9rem; margin-top: 0.8rem; color: var(--mid); border-radius: 0 0.5rem 0.5rem 0; }
+    .j3-img { border-radius: 0.7rem; overflow: hidden; border: 1px solid var(--line); background: var(--bg3); aspect-ratio: 16/11; margin-bottom: 0.6rem; }
+    .j3-img img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; cursor: zoom-in; transition: transform 0.4s ease; }
+    .j3-img:hover img { transform: scale(1.03); }
+    .j3-cap { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
     .j3-list { list-style: none; }
     .j3-list li { font-size: 0.86rem; color: var(--mid); line-height: 1.6; padding: 0.38rem 0; border-top: 1px solid var(--line); }
     .j3-list li:first-child { border-top: none; }
@@ -663,15 +649,11 @@ eperiment<!DOCTYPE html>
       .nav-links a { display: block; padding: 0.85rem 2.5rem; }
       .nav-links a::after { display: none; }
       .nav-toggle { display: block; }
-      .cgrid, .cis-grid, .cs-hdr, #about { grid-template-columns: 1fr; }
+      .cis-grid, .cs-hdr, #about { grid-template-columns: 1fr; }
       .inums { grid-template-columns: 1fr 1fr; }
       .inum { padding: 1.3rem 0.9rem; }
       .inum-big { font-size: 1.8rem; }
-      .cs-img-row, .artifacts { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-      .cs-img-caption { padding: 0.6rem 0.9rem; }
-      .cs-img-caption strong { font-size: 0.66rem; }
-      .cs-img-caption span { font-size: 0.7rem; }
-      .cs-img-item { min-height: 130px; }
+      .artifacts { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
       .artifact-cap p { font-size: 0.78rem; }
       .journey-3, .edu-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
       .prod-show { position: static; }
@@ -927,46 +909,14 @@ eperiment<!DOCTYPE html>
       <p data-i18n="dd.sub">A full end-to-end redesign: from a legacy, table-based tool to a visual, graph-driven forecasting experience.</p>
     </div>
 
-    <div class="cs-strip">
-      <p class="cs-strip-label" data-i18n="dd.glance">The transformation at a glance</p>
-      <div class="cs-img-row">
-        <div class="cs-img-item">
-          <img src="Images/Bloom/DP_Before.png" alt="Legacy Demand Planning interface" onerror="this.style.display='none'">
-          <div class="cs-img-caption"><strong data-i18n="dd.before">Before</strong><span data-i18n="dd.beforeSub">Legacy · table-based · rigid</span></div>
-        </div>
-        <div class="cs-img-item">
-          <img src="Images/Bloom/DP.png" alt="The Vision - Last Prototype" onerror="this.style.display='none'">
-          <div class="cs-img-caption"><strong data-i18n="dd.vision">The Vision</strong><span data-i18n="dd.visionSub">Interactive prototype · iterated</span></div>
-        </div>
-        <div class="cs-img-item">
-          <img src="Images/Bloom/DP_After.png" alt="The Reality - Production Implementation" onerror="this.style.display='none'">
-          <div class="cs-img-caption"><strong data-i18n="dd.after">After</strong><span data-i18n="dd.afterSub">Visual · graph-driven · intuitive</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cgrid">
-      <div class="ccard lt">
-        <p class="ccard-lbl" data-i18n="dd.chLbl">The Challenge</p>
-        <h4 data-i18n="dd.chTtl">Users struggled with a rigid, outdated interface.</h4>
-        <p data-i18n="dd.chTxt">The legacy Demand Planning module relied on complex, table-based configurations and manual inputs — time-consuming and error-prone. Hidden options, poor navigation, and weak information architecture cut task completion speed by 50% and dragged down user satisfaction.</p>
-      </div>
-      <div class="ccard dk">
-        <p class="ccard-lbl" data-i18n="dd.psLbl">Problem Statement</p>
-        <h4 data-i18n="dd.psTtl">"How might we make the Demand Planning tool more performant, ergonomic, simple, and efficient — to optimise forecasts and anticipate hazards?"</h4>
-        <p data-i18n="dd.psTxt">Surfaced through workshops with Professional Services, Architects, and Customer Success teams, and validated against real usage data.</p>
-      </div>
-    </div>
-
     <div class="journey-panel">
       <p class="lbl" data-i18n="dd.jLbl">Design Thinking Journey</p>
-      <h4 style="font-family:var(--serif);font-weight:600;font-size:1.25rem;" data-i18n="dd.jTtl">Persona · Pain Points · What We Changed</h4>
+      <h4 style="font-family:var(--serif);font-weight:600;font-size:1.25rem;" data-i18n="dd.jTtl">Before · Pain Points · What We Changed</h4>
       <div class="journey-3">
         <div>
-          <p class="j3-lbl" data-i18n="dd.persona">Persona</p>
-          <p class="j3-title" data-i18n="dd.personaName">Namadoo, 30 · Demand Planner</p>
-          <p class="j3-desc" data-i18n="dd.personaTxt">Responsible for aligning market predictions with budget constraints. Strong supply chain experience. Uses the tool daily and needs it to be fast, reliable, and trustworthy.</p>
-          <p class="j3-quote" data-i18n="dd.personaQuote">"I predict the future of our products, and I need tools that help me do that with confidence."</p>
+          <p class="j3-lbl" data-i18n="dd.before">Before</p>
+          <div class="j3-img"><img src="Images/Bloom/DP_Before.png" alt="Legacy Demand Planning interface" onerror="this.parentElement.style.display='none'"></div>
+          <p class="j3-cap" data-i18n="dd.beforeSub">Legacy · table-based · rigid</p>
         </div>
         <div>
           <p class="j3-lbl" data-i18n="dd.painLbl">Key Pain Points</p>
@@ -1291,7 +1241,7 @@ eperiment<!DOCTYPE html>
       "dd.psLbl": "Problem Statement",
       "dd.psTtl": "\u201CHow might we make the Demand Planning tool more performant, ergonomic, simple, and efficient — to optimise forecasts and anticipate hazards?\u201D",
       "dd.psTxt": "Surfaced through workshops with Professional Services, Architects, and Customer Success teams, and validated against real usage data.",
-      "dd.jLbl": "Design Thinking Journey", "dd.jTtl": "Persona · Pain Points · What We Changed",
+      "dd.jLbl": "Design Thinking Journey", "dd.jTtl": "Before · Pain Points · What We Changed",
       "dd.persona": "Persona", "dd.personaName": "Namadoo, 30 · Demand Planner",
       "dd.personaTxt": "Responsible for aligning market predictions with budget constraints. Strong supply chain experience. Uses the tool daily and needs it to be fast, reliable, and trustworthy.",
       "dd.personaQuote": "\u201CI predict the future of our products, and I need tools that help me do that with confidence.\u201D",
@@ -1423,7 +1373,7 @@ eperiment<!DOCTYPE html>
       "dd.psLbl": "Problématique",
       "dd.psTtl": "« Comment rendre l'outil de Demand Planning plus performant, ergonomique, simple et efficace — pour optimiser les prévisions et anticiper les aléas ? »",
       "dd.psTxt": "Issue d'ateliers avec les équipes Professional Services, Architectes et Customer Success, et validée par des données d'usage réelles.",
-      "dd.jLbl": "Parcours Design Thinking", "dd.jTtl": "Persona · Points de friction · Ce que nous avons changé",
+      "dd.jLbl": "Parcours Design Thinking", "dd.jTtl": "Avant · Points de friction · Ce que nous avons changé",
       "dd.persona": "Persona", "dd.personaName": "Namadoo, 30 ans · Demand Planner",
       "dd.personaTxt": "Chargé d'aligner les prévisions de marché avec les contraintes budgétaires. Solide expérience supply chain. Utilise l'outil quotidiennement et a besoin qu'il soit rapide, fiable et digne de confiance.",
       "dd.personaQuote": "« Je prédis l'avenir de nos produits, et j'ai besoin d'outils qui me permettent de le faire avec confiance. »",
@@ -1564,7 +1514,7 @@ eperiment<!DOCTYPE html>
      PLATFORM MODULES — desc is bilingual: { en, fr }
      ========================================================== */
   const modules = [
-    { name: "Demand Planning", img: "Images/Bloom/Demand.png", desc: {
+    { name: "Demand Planning", img: "Images/Bloom/DP.png", desc: {
       en: "Transformed a rigid, table-based interface into a fully visual, graph-driven experience. Users can clean, enrich, and analyse forecasts directly within the interface. Deep-dive below ↓",
       fr: "Une interface rigide à base de tableaux transformée en expérience entièrement visuelle, pilotée par les graphiques. Les utilisateurs nettoient, enrichissent et analysent leurs prévisions directement dans l'interface. Zoom ci-dessous ↓" } },
     { name: "Supply Planning", img: "Images/Bloom/SP.png", desc: {
@@ -1625,11 +1575,16 @@ eperiment<!DOCTYPE html>
     { id: "visual", en: "Visual & Media", fr: "Visuel & Média" }
   ];
   const experiments = [
-     { num: 13, cat: "games",
+    { num: 14, cat: "interactive",
+  title: "Confettis sur la Tour Eiffel · Mistral Celebration",
+  desc: { en: "A follow-up to the Bastille Day fireworks, prompted by a commenter: could Mistral, the French AI, build the same show? Given the same brief and reference images, an hour of directing never produced fireworks — the bursts stayed stubbornly in confetti form, and every \"improvement\" Mistral suggested only made things heavier. But taken for what it is, the result is a joyful confetti celebration over the Eiffel Tower, worth playing with in its own right. Every AI has its defaults; sometimes the move is to keep what they're good at.",
+          fr: "Une suite au feu d'artifice du 14 juillet, née d'une question en commentaire : Mistral, l'IA française, pouvait-elle construire le même spectacle ? Avec le même brief et les mêmes images de référence, une heure de direction n'a jamais produit de feu d'artifice — les explosions sont restées obstinément en forme de confettis, et chaque « amélioration » proposée par Mistral ne faisait qu'alourdir le résultat. Mais pris pour ce qu'il est, c'est une joyeuse célébration de confettis au-dessus de la tour Eiffel, qui vaut le détour en soi. Chaque IA a ses réflexes ; parfois, le bon choix est de garder ce qu'elle sait faire." },
+  tags: ["Web App", "Mistral", "Creative Coding"], link: "https://rianago.com/FeuArtifice.html", video: "", img: "Images/experiments/eiffel-confetti.png" },
+  { num: 13, cat: "games",
   title: "Feu d'Artifice · Interactive Bastille Day Show",
-  desc: { en: "An interactive fireworks display for the 14 juillet: tap the sky to launch a rocket, trigger an auto show, a grand finale or drone drawing, with in-browser synthesized sound toggle. The real work wasn't the code — it was steering the look away from the rainbow-confetti default every AI reaches for, toward the gold-and-silver palette of a real show. Claude Fable brought the speed; the direction toward \"real\" was human.",
-          fr: "Un feu d'artifice interactif pour le 14 juillet : touchez le ciel pour lancer une fusée, déclenchez le spectacle automatique, le bouquet final ou dessins avec des drones et un son synthétisé en direct. Le vrai travail n'était pas le code — c'était d'éloigner le rendu du réflexe « confettis arc-en-ciel » de toute IA, vers la palette or et argent d'un vrai spectacle. Claude Fable a apporté la vitesse ; la direction vers le « vrai », c'était l'humain." },
-  tags: ["Web App", "Claude Fable", "Gemini", "Creative Coding"], link: "Images/experiments/feu-artifice.html", video: "", img: "Images/experiments/feu-artifice.png" },
+  desc: { en: "An interactive fireworks display for the 14 juillet: tap the sky to launch a rocket, trigger an auto show, a grand finale and drone drawing, with an in-browser synthesized sound toggle. The real work wasn't the code, it was steering the look away from the rainbow-confetti default every AI reaches for, toward the gold-and-silver palette of a real show. Claude Fable brought the speed; the direction toward \"real\" was human.",
+          fr: "Un feu d'artifice interactif pour le 14 juillet : touchez le ciel pour lancer une fusée, déclenchez le spectacle automatique, le bouquet final ou des dessins avec des drones et un son synthétisé en direct. Le vrai travail n'était pas le code mais c'était d'éloigner le rendu du réflexe « confettis arc-en-ciel » de toute IA, vers la palette or et argent d'un vrai spectacle. Claude Fable a apporté la vitesse ; la direction vers le « vrai », c'était l'humain." },
+  tags: ["Web App", "Claude Fable", "Gemini", "Creative Coding"], link: "feu-artifice.html", video: "", img: "Images/experiments/feu-artifice.png" },
   { num: 12, cat: "ai",
   title: "Artifact or Project · Claude Field Guide",
   desc: { en: "Untangling two words that constantly get mixed up in Claude: artifact vs project. An artifact is a real, working thing built right in the chat — a game, a quiz, a document — that you ship once, but that forgets everything between sessions. A project is your agent's body: a workspace holding the instructions, files and context, running the built-in loop (think → act → observe) until the goal is reached. The rule of thumb that sticks: an artifact is a thing you make once and ship; a project is a colleague you call on repeatedly.",
@@ -2051,7 +2006,7 @@ eperiment<!DOCTYPE html>
       if (expModal.classList.contains('open')) closeExpModal();
     }
   });
-  document.querySelectorAll('.cs-img-item img, .artifact-img img, .prod-ph img').forEach(img => {
+  document.querySelectorAll('.j3-img img, .artifact-img img, .prod-ph img').forEach(img => {
     img.classList.add('lightbox-trigger');
     img.addEventListener('click', (e) => {
       e.stopPropagation();
