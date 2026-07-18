@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Ciel Clair — Sky Defense</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
+</head>
+<body>
+<header>
+  <h1 id="hTitle">CIEL <span class="accent">CLAIR</span> · SKY DEFENSE</h1>
+  <span class="sub" id="hSub"></span>
+</header>
+
+<div class="main">
+<div class="stage" id="stage">
+  <canvas id="cv"></canvas>
+
+  <div class="hud hidden" id="hud">
+    <div class="cell"><span class="lab" id="lScore"></span><span class="val orange" id="vScore">0</span></div>
+    <div class="cell"><span class="lab" id="lLevel"></span><span class="val" id="vLevel">1/5</span></div>
+    <div class="cell"><span class="lab" id="lTime"></span><span class="val" id="vTime">0:45</span></div>
+    <div class="cell"><span class="lab" id="lCombo"></span><span class="val teal" id="vCombo">×1</span></div>
+    <div class="cell"><span class="lab" id="lCity"></span><span class="val" id="shields"></span></div>
+  </div>
+
+  <div class="corner">
+    <button id="menuBtn">☰ MENU</button>
+    <button id="muteBtn">SOUND: ON</button>
+  </div>
+
+  <!-- loading -->
+  <div class="overlay" id="loading">
+    <div class="card" style="text-align:center">
+      <span class="stamp">CIEL CLAIR — SKY DEFENSE</span>
+      <p id="loadTxt">Loading…</p>
+    </div>
+  </div>
+
+  <!-- main menu : single modal -->
+  <div class="overlay hidden" id="menu">
+    <div class="card modal">
+      <div class="modal-head">
+        <div class="mh-title" id="mhTitle">CIEL <span class="accent">CLAIR</span> · SKY DEFENSE</div>
+        <div class="langrow">
+          <button id="enBtn" class="on">EN</button><button id="frBtn">FR</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <section class="content">
+          <!-- levels pane (default) -->
+          <div class="pane" id="paneLevels">
+            <div class="progressrow">
+              <span class="lab" id="progTxt"></span>
+              <div class="pbar"><div class="pfill" id="pFill" style="width:0%"></div></div>
+            </div>
+            <div class="lvllist" id="lvllist"></div>
+            <div class="missionbox">
+              <div class="mission-banner" id="mBanner"></div>
+              <span class="stamp" id="mStamp"></span>
+              <h2 id="mName"></h2>
+              <p class="threat" id="mThreat"></p>
+              <p class="threat" id="mLvlBest"></p>
+              <p id="mText"></p>
+            </div>
+          </div>
+          <!-- how to play pane -->
+          <div class="pane hidden" id="paneHowto">
+            <div class="panehead"><span class="stamp" id="aStamp"></span><button class="closepane" aria-label="Close">×</button></div>
+            <h2 id="aTitle"></h2>
+            <div class="panebody">
+              <ul class="rules">
+                <li id="a1"></li>
+                <li id="a2"></li>
+                <li id="a3"></li>
+                <li id="a4"></li>
+                <li id="a5"></li>
+                <li id="a6"></li>
+              </ul>
+            </div>
+          </div>
+          <!-- about pane -->
+          <div class="pane hidden" id="paneAbout">
+            <div class="panehead"><span class="stamp" id="abStamp"></span><button class="closepane" aria-label="Close">×</button></div>
+            <h2 id="abTitle"></h2>
+            <div class="panebody">
+              <p id="abText"></p>
+              <p id="abDisclaimer" class="mut"></p>
+              <div class="about-sec"><div class="who" id="abWho"></div></div>
+            </div>
+          </div>
+          <!-- score pane -->
+          <div class="pane hidden" id="paneScore">
+            <div class="panehead"><span class="stamp" id="scStamp"></span><button class="closepane" aria-label="Close">×</button></div>
+            <h2 id="scTitle"></h2>
+            <div class="panebody">
+            <div class="scblock">
+              <div class="scorerow">
+                <span class="lab" id="bestL"></span>
+                <span class="val teal" id="bestV">—</span>
+                <button class="sctog" id="bestTog">+</button>
+              </div>
+              <div class="scdetail hidden" id="bestDet"></div>
+            </div>
+            <div class="scblock">
+              <div class="scorerow">
+                <span class="lab" id="lastL"></span>
+                <span class="val" id="lastV">—</span>
+                <button class="sctog" id="lastTog">+</button>
+              </div>
+              <div class="scdetail hidden" id="lastDet"></div>
+            </div>
+            <button class="btn ghost" id="copyScoreBtn" style="margin-top:10px"></button>
+            <p class="share" id="scShare"></p>
+            </div>
+          </div>
+        </section>
+        <nav class="menu-btns">
+          <button class="btn" id="playBtn"></button>
+          <button class="btn ghost" id="scoreBtn"></button>
+          <button class="btn ghost" id="howtoBtn"></button>
+          <button class="btn ghost" id="aboutBtn"></button>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- pause -->
+  <div class="overlay hidden" id="pause">
+    <div class="card" style="max-width:380px">
+      <span class="stamp" id="pStamp"></span>
+      <h2 id="pTitle"></h2>
+      <button class="btn" id="resumeBtn"></button>
+      <button class="btn ghost" id="quitBtn"></button>
+    </div>
+  </div>
+
+  <!-- level complete -->
+  <div class="overlay hidden" id="inter">
+    <div class="card win">
+      <span class="stamp" id="iStamp"></span>
+      <h2 id="iTitle"></h2>
+      <div class="lvlrow" id="iDots"></div>
+      <div class="stats" id="iStats"></div>
+      <p id="iNext"></p>
+      <button class="btn" id="nextBtn"></button>
+      <button class="btn ghost" id="interMenuBtn"></button>
+    </div>
+  </div>
+
+  <!-- fail -->
+  <div class="overlay hidden" id="fail">
+    <div class="card">
+      <span class="stamp" id="fStamp"></span>
+      <h2 id="fTitle"></h2>
+      <p id="fDesc"></p>
+      <button class="btn" id="contBtn"></button>
+      <button class="btn ghost" id="retryBtn"></button>
+      <button class="btn ghost" id="failMapBtn"></button>
+    </div>
+  </div>
+
+  <!-- victory -->
+  <div class="overlay hidden" id="win">
+    <div class="card win">
+      <span class="stamp" id="wStamp"></span>
+      <h2 id="wTitle"></h2>
+      <div class="rank"><div class="lab" id="wRankLab"></div><div class="val" id="wRank">—</div></div>
+      <p class="share newbest hidden" id="wBest"></p>
+      <div class="stats">
+        <div class="stat"><div class="lab" id="sScoreL"></div><div class="val" id="sScore">0</div></div>
+        <div class="stat"><div class="lab" id="sKillL"></div><div class="val" id="sKills">0</div></div>
+        <div class="stat"><div class="lab" id="sDronesL"></div><div class="val" id="sDrones">0</div></div>
+        <div class="stat"><div class="lab" id="sMissilesL"></div><div class="val" id="sMissiles">0</div></div>
+        <div class="stat"><div class="lab" id="sAccL"></div><div class="val" id="sAcc">0%</div></div>
+        <div class="stat"><div class="lab" id="sFFL"></div><div class="val" id="sFF">0</div></div>
+      </div>
+      <button class="btn" id="againBtn"></button>
+      <button class="btn ghost" id="copyResBtn"></button>
+      <p class="share" id="wShare"></p>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer>
+  <span id="fLeft">Ciel Clair — Sky Defense · Riana G.</span>
+  <span id="fRight"></span>
+</footer>
+
+<script src="js/sdk.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/levels.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
